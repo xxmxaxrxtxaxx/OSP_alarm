@@ -1,0 +1,25 @@
+{
+  "name": "alarmuj",
+  "version": "1.0.0",
+  "description": "aplikacja do alarmowania OSP",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xxmxaxrxtxaxx/OSP_alarm.git"
+  },
+  "author": "Marta Kaszuba",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xxmxaxrxtxaxx/OSP_alarm/issues"
+  },
+  "homepage": "https://github.com/xxmxaxrxtxaxx/OSP_alarm#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  }
+}
