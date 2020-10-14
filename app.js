@@ -6,12 +6,17 @@ const baza=mysql.createPool(process.env.connection_strig);
 global.baza=baza;
 
 
-
-require("./db/uzytkownicy").znajdzPoJednostce(1).then((result)=>{
+require("./db/wezwania").ZnajdzPoWlasnymId(1).then((result)=>{
     console.log(result);
 },error=>{
     console.log(error);
 });
+
+// require("./db/uzytkownicy").znajdzPoJednostce(1).then((result)=>{
+//     console.log(result);
+// },error=>{
+//     console.log(error);
+// });
 
 // baza.query("select * from straz.strazak",(err, result, fields)=>{
 //     if (err) throw err;
