@@ -1,4 +1,4 @@
-class Straz{
+class Strazak{
     constructor(idJednostki, idUzytkownika, czyKierowca, czyDowodca, czyKpp){
         this.idJednostki=idJednostki;
         this.idUzytkownika=idUzytkownika;
@@ -7,4 +7,4 @@ class Straz{
         this.czyKpp=czyKpp;
     }
 }
-module.exports=Straz;
+module.exports=Strazak;

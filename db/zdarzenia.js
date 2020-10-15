@@ -31,5 +31,14 @@ module.exports = {
                     
                 });
         })
+    },
+    usun: (idZdarzenia) => {
+        return new Promise((resolve, reject) => {
+            global.baza.query(`delete from zdarzenie where id=${idZdarzenia}`,
+                (blad, wyniki, pola) => {
+                    if (blad) reject(blad);
+                    resolve(wyniki);
+                });
+        })
     }
 }
