@@ -1,6 +1,8 @@
+const { request } = require('express');
 var express = require('express');
 var router = express.Router();
 var bazaJednostek = require('../db/jednostki');
+var menu=require('../controllers/menu');
 
 router.get(`/`, async (req, res) => {
 
@@ -9,7 +11,7 @@ router.get(`/`, async (req, res) => {
 
     res.render('jednostki', {
         naglowek: {},
-        menu: {},
+        menu: menu.pobierz(req),
         lista: listaJednostek
     })
 });

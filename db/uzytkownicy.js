@@ -63,17 +63,17 @@ module.exports = {
         })
     },
 
-    // zmien:(uzytkownik) => {
-    //     return new Promise((resolve, reject) => {
-    //         global.baza.query(`update uzytkownik set '${uzytkownik.imie}', '${uzytkownik.nazwisko}', ${uzytkownik.numerTelefonu},
-    //          where id=${uzytkownik.id})`,
-    //             (blad, wyniki, pola) => {
-    //                 if (blad) reject(blad);
+    zmien:(uzytkownik) => {
+        return new Promise((resolve, reject) => {
+            global.baza.query(`update uzytkownik set '${uzytkownik.imie}', '${uzytkownik.nazwisko}', ${uzytkownik.numerTelefonu}, '${uzytkownik.login}', '${uzytkownik.haslo}'
+             where id=${uzytkownik.id})`,
+                (blad, wyniki, pola) => {
+                    if (blad) reject(blad);
                     
-    //                 resolve(wyniki);
-    //             });
-    //     })
-    // },
+                    resolve(wyniki);
+                });
+        })
+    },
 
     usun: (idUzytkownika) => {
         return new Promise((resolve, reject) => {

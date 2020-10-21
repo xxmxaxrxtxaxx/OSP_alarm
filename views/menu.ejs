@@ -5,11 +5,15 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto my-2 my-lg-0">
                 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.html">Strona Główna</a></li>
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="czlonkowie.html">Członkowie</a></li>
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="historia.html">Historia</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="czlonkowie.html">Moje Jednostki</a></li>
                 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="ustawienia.html">Ustawienia</a></li>
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#wyloguj">Wyloguj</a></li>
-
+                <%if(czyZalogowany){%>
+                 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/logowanie/Wyloguj">Wyloguj</a></li>
+                    <%}else{%>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/logowanie/Wyloguj">Zaloguj</a></li>
+                        <%}%>
+              
+               
             </ul>
         </div>
     </div>
