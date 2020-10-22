@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('naglowek', {});  %>
+
+
+<body id="page-top">
+
+    <%- include('menu', menu);  %>
+
+    <header class="masthead2">
+        <div class="container h-10">
+
+            <div class="row h-100 align-items-center justify-content-center text-center">
+                <div class="col-lg-10">
+                    <h2 class="text-uppercase text-white font-weight-bold">Dodaj Jednostkę</h2>
+                    <br><br>
+
+                </div>
+                <form action="/jednostki/edycja" method="POST">
+                    <div class="form-group">
+                        <label for="nazwa" class="text text-white">Nazwa Jednostki</label>
+                        <input type="text" class="form-control" id="nazwa" value="<%=jednostka.nazwa%>" name="nazwa"
+                            placeholder="Podaj nazwę">
+                    </div>
+                    <br>
+
+                    <div class="form-group">
+                        <label for="przykladowyAdres" class="text text-white">Adres</label>
+                        <input type="text" class="form-control" id="adres" value="<%=jednostka.adres%>" name="adres" placeholder="Podaj adres">
+                    </div>
+                    <br><br>
+                    <input type="hidden" value="<%=jednostka.id%>" name="id">
+                    
+                        <button type="submit" class="btn btn-primary btn-lg">Zapisz</button>
+
+                    
+
+            </div>
+            </form>
+
+        </div>
+        </div>
+    </header>
+
+</body>
+
+</html>

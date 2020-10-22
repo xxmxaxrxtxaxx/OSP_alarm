@@ -12,7 +12,6 @@ router.post('/',
 router.get('/', (req,res)=>{
     res.render('logowanie', {
 
-        menu: menu.pobierz(req)
     })
   
 });

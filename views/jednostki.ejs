@@ -36,7 +36,9 @@
                                     
                                     <td><%= lista[i].nazwa %></td>
                                     <td><%= lista[i].adres %></td>
-                                    <td><a href="/strazacy/<%=lista[i].id%>">Zobacz strażaków</a><a href="#"> Edytuj </a><a href="#"> Usuń </a></td>
+                                    <td><a href="/strazacy/<%=lista[i].id%>">Zobacz strażaków</a>
+                                        <a href="/jednostki/edycja/<%=lista[i].id%>"> Edytuj </a>
+                                        <a href="#"> Usuń </a></td>
  
                                 </tr>
                                 <% }   %>
@@ -45,7 +47,7 @@
                         </table>
 
                     </p>
-                    <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Dodaj Jednostkę</a>
+                    <a class="btn btn-light btn-xl js-scroll-trigger" href="/jednostki/edycja">Dodaj Jednostkę</a>
                     
                 </div>
             </div>

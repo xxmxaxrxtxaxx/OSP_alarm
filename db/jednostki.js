@@ -1,5 +1,10 @@
 const Jednostka = require("../models/jednostka");
 
+var konwertuj = (rekordZBazy)=>new Jednostka(
+    {id:rekordZBazy.id,
+       nazwa:  rekordZBazy.nazwa,
+       adres:   rekordZBazy.adres});
+
 module.exports = {
     ZnajdzPoIdStrazaka: (idStrazaka) =>{
         return new Promise((resolve, reject) => {
@@ -8,13 +13,13 @@ module.exports = {
             where s.id_uzytkownika=${idStrazaka} `,
                 (blad, wyniki, pola) => {
                     if (blad) reject(blad);
-                    if(wyniki.length>0){
-                        var w = wyniki[0];
-                        resolve(new Jednostka(w.id, w.nazwa, w.adres));
+                    var listaJednostek=[];
+                    for(var i=0;i<wyniki.length;i++){
+                       var w = wyniki[i]; 
+                       listaJednostek.push(konwertuj(w));
 
-                    }else{
-                      resolve(null);  
                     }
+                   resolve(listaJednostek);
                     
                 });
         })
@@ -26,7 +31,7 @@ module.exports = {
                     if (blad) reject(blad);
                     if(wyniki.length>0){
                         var w = wyniki[0];
-                        resolve(new Jednostka(w.id, w.nazwa, w.adres));
+                        resolve(konwertuj(w));
 
                     }else{
                       resolve(null);  
@@ -44,7 +49,7 @@ module.exports = {
                     if (blad) reject(blad);
                     if(wyniki.length>0){
                         var w = wyniki[0];
-                        resolve(new Jednostka(w.id, w.nazwa, w.adres));
+                        resolve(konwertuj(w));
 
                     }else{
                       resolve(null);  
@@ -64,7 +69,7 @@ module.exports = {
                     var jednostki = [];
                     for (var i = 0; i < wyniki.length; i++) {
                         var w = wyniki[i];
-                        jednostki.push(new Jednostka(w.id, w.nazwa, w.adres));
+                        jednostki.push(konwertuj(w));
                     }
                     resolve(jednostki);
                     
@@ -84,8 +89,20 @@ module.exports = {
     wstaw: (jednostka) => {
         return new Promise((resolve, reject) => {
 
-            global.baza.query(`insert into jednostka (id, nazwa, adres) 
-            values (${jednostka.id}, '${jednostka.nazwa}', '${jednostka.adres}')`,
+            global.baza.query(`insert into jednostka (nazwa, adres) 
+            values ('${jednostka.nazwa}', '${jednostka.adres}')`,
+                (blad, wyniki, pola) => {
+                    if (blad) reject(blad);
+                    
+                    resolve(wyniki);
+                });
+        })
+    },
+
+    edytuj: (jednostka)=>{
+        return new Promise((resolve, reject) => {
+
+            global.baza.query(`update jednostka set nazwa='${jednostka.nazwa}', adres='${jednostka.adres}' where id=${jednostka.id}`,
                 (blad, wyniki, pola) => {
                     if (blad) reject(blad);
                     

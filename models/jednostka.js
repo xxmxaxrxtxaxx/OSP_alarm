@@ -1,8 +1,9 @@
 class Jednostka{
-    constructor(id, nazwa, adres){
-        this.id=id;
-        this.nazwa=nazwa;
-        this.adres=adres;
+    constructor(pola){
+        this.id=pola.id;
+        this.nazwa=pola.nazwa;
+        this.adres=pola.adres;
     }
+   
 }
 module.exports=Jednostka;

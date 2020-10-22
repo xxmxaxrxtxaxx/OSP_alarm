@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var bazaStrazakow = require('../db/uzytkownicy');
+var menu=require('../controllers/menu');
 
 router.get(`/:idJednostki`, async (req, res) => {
 
@@ -10,7 +11,7 @@ router.get(`/:idJednostki`, async (req, res) => {
 
     res.render('strazacy', {
         naglowek: {},
-        menu: {},
+        menu: menu.pobierz(req),
         lista: listaStrazakow
     })
 });
