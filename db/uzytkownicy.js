@@ -1,5 +1,13 @@
 const Uzytkownik = require("../models/uzytkownik");
 
+var konwertuj = (rekordZBazy)=>new Uzytkownik(
+    {id:rekordZBazy.id,
+    imie: rekordZBazy.imie,
+    nazwisko: rekordZBazy.nazwisko,
+    numerTelefonu: rekordZBazy.numer_telefonu, 
+    login: rekordZBazy.login,
+    haslo: rekordZBazy.haslo});
+
 module.exports = {
     znajdzPoNazwie: (nazwa) => {
         return new Promise((resolve, reject) => {
@@ -8,7 +16,7 @@ module.exports = {
                     if (blad) reject(blad);
                     if (wyniki.length > 0) {
                         var w = wyniki[0];
-                        resolve(new Uzytkownik(w.id, w.imie, w.nazwisko, w.numer_telefonu, w.login, w.haslo));
+                        resolve(konwertuj(w));
                     } else {
                         resolve(null);
                     }
@@ -26,7 +34,7 @@ module.exports = {
                     var uzytkownicy = [];
                     for (var i = 0; i < wyniki.length; i++) {
                         var w = wyniki[i];
-                        uzytkownicy.push(new Uzytkownik(w.id, w.imie, w.nazwisko, w.numer_telefonu, w.login, w.haslo))
+                        uzytkownicy.push(konwertuj(w))
                     }
                     resolve(uzytkownicy);
                 });
@@ -39,7 +47,7 @@ module.exports = {
                     if (blad) reject(blad);
                     if(wyniki.length>0){
                         var w = wyniki[0];
-                        resolve(new Uzytkownik(w.id, w.imie, w.nazwisko, w.numer_telefonu, w.login, w.haslo));
+                        resolve(konwertuj(w));
 
                     }else{
                       resolve(null);  
@@ -52,21 +60,21 @@ module.exports = {
     wstaw: (uzytkownik) => {
         return new Promise((resolve, reject) => {
 
-            global.baza.query(`insert into uzytkownik (id, imie, nazwisko, numer_telefonu, login, haslo) 
-            values (${uzytkownik.id}, '${uzytkownik.imie}', '${uzytkownik.nazwisko}', ${uzytkownik.numerTelefonu},
+            global.baza.query(`insert into uzytkownik (imie, nazwisko, numer_telefonu, login, haslo) 
+            values ('${uzytkownik.imie}', '${uzytkownik.nazwisko}', ${uzytkownik.numerTelefonu},
              '${uzytkownik.login}', '${uzytkownik.haslo}')`,
                 (blad, wyniki, pola) => {
                     if (blad) reject(blad);
                     
-                    resolve(wyniki);
+                    resolve(wyniki.insertId);
                 });
         })
     },
 
     zmien:(uzytkownik) => {
         return new Promise((resolve, reject) => {
-            global.baza.query(`update uzytkownik set '${uzytkownik.imie}', '${uzytkownik.nazwisko}', ${uzytkownik.numerTelefonu}, '${uzytkownik.login}', '${uzytkownik.haslo}'
-             where id=${uzytkownik.id})`,
+            global.baza.query(`update uzytkownik set imie='${uzytkownik.imie}', nazwisko='${uzytkownik.nazwisko}', numer_telefonu=${uzytkownik.numerTelefonu}
+             where id=${uzytkownik.id}`,
                 (blad, wyniki, pola) => {
                     if (blad) reject(blad);
                     

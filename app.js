@@ -9,7 +9,6 @@ const bazaUzytkownikow=require("./db/uzytkownicy");
 const port = process.env.port;
 
 
-
 const baza=mysql.createPool(process.env.connection_strig);
 global.baza=baza;
 global.passport=passport;
@@ -26,6 +25,7 @@ passport.use(new LocalStrategy({
     
 },
      (username, password, callback)=> {
+        
         bazaUzytkownikow.znajdzPoNazwie(username).then(uzytkownik=>{
             if(uzytkownik){
                 if(password==uzytkownik.haslo){
@@ -75,6 +75,10 @@ app.use(`/jednostki`,require("./controllers/jednostki"));
 
 app.use(`/strazacy`,require("./controllers/strazacy"));
 app.use(`/logowanie`,require("./controllers/logowanie"));
+app.use(`/uzytkownik`,require("./controllers/uzytkownik"));
+app.use(`/zdarzenia`, require("./controllers/zdarzenia"));
+app.use(`/stronaGlowna`, require("./controllers/stronaGlowna"));
+
 
 
  app.listen(port, ()=>{

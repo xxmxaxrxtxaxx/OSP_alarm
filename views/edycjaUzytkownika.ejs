@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('naglowek', {});  %>
+
+
+<body id="page-top">
+
+    <%- include('menu', menu);  %>
+
+
+    <header class="masthead2">
+        <div class="container h-10">
+            <div class="row justify-content-end">
+                <div class="row-3">
+                    <a href="/uzytkownik/haslo/<%=uzytkownik.id%>" class="btn btn-primary " role="button" aria-pressed="true">Zmień hasło</a>
+
+                </div><br>
+                <div class="row-3">
+                    <a href="#" class="btn btn-secondary active" role="button" aria-pressed="true">Usuń konto</a>
+                </div>
+            </div>
+            <div class="row h-100 align-items-center justify-content-center text-center">
+                <div class="col-lg-10">
+                    <h2 class="text-uppercase text-white font-weight-bold">Dane użytkownika</h2>
+                    <br><br>
+
+                </div>
+
+                <form action="/uzytkownik/zapisz" method="POST">
+
+                    <div class="form-group">
+                        <label for="login" class="text text-white">Login</label>
+                        <input type="text" <%if(uzytkownik.id){%>readonly <%}%> class="form-control" name="login" value="<%=uzytkownik.login%>" id="login" placeholder="Twój Login">
+                    </div>
+                    <br>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="imie" class="text text-white">Imię</label>
+                            <input type="text" class="form-control" id="imie" name="imie" value="<%=uzytkownik.imie%>" placeholder="Podaj imię">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="nazwisko" class="text text-white">Nazwisko</label>
+                            <input type="text" class="form-control" id="nazwisko" name="nazwisko" value="<%=uzytkownik.nazwisko%>" placeholder="Podaj nazwisko">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="przykladowyAdres" class="text text-white">Numer telefonu</label>
+                        <input type="text" class="form-control" id="numerTelefonu" name="numerTelefonu" value="<%=uzytkownik.numerTelefonu%>" placeholder="Podaj numer telefonu">
+                    </div>
+                    <input type="hidden" value="<%=uzytkownik.id%>" name="id">
+                    <input type="hidden" value="<%=uzytkownik.haslo%>" name="haslo">
+                    <%if(idJednostki){%>
+                    <input type="hidden" value="<%=idJednostki%>" name="idJednostki">
+                    <%}%>
+                    <br><br>
+                          <button type="submit" class="btn btn-primary btn-lg">Zapisz zmiany</button>
+                        
+                  
+            </div>
+            </form>
+
+        </div>
+        </div>
+    </header>
+
+</body>
+
+</html>

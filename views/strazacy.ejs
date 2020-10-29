@@ -16,7 +16,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8 text-center">
-                    <h2 class="text-white mt-0">Członkowie!</h2>
+                    <h2 class="text-white mt-0">Lista strażaków</h2>
                     <hr class="divider light my-4" />
                     <p class="text-white-50 mb-4">
 
@@ -41,14 +41,15 @@
                                     <td><%= lista[i].nazwisko %></td>
                                     <td><%= lista[i].numerTelefonu %></td>
                                     <td></td>
-                                    <td><a href="/strazacy/<%=lista[i].id%>">Edytuj dane</a><a href="/usun/<%=lista[i].id%>/idStrazaka"> Usuń</a></td>
+                                    <td><a href="/strazacy/edytuj/<%=idJednostki%>/<%=lista[i].id%>">Edytuj dane</a><a href="/strazacy/usun/<%=lista[i].id%>"> Usuń</a></td>
  
                                 </tr>
                                 <% }   %>
 
                             </tbody>
                         </table>
-                        <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Dodaj Strażaka</a>
+                        <a class="btn btn-light btn-xl js-scroll-trigger" href="/strazacy/dodajNowego/<%=idJednostki%>">Dodaj nowego strażaka</a>
+                        <a class="btn btn-light btn-xl js-scroll-trigger" href="/strazacy/dodajIstniejacego/<%=idJednostki%>">Dodaj istniejącego strażaka</a>
                     </p>
                 </div>
             </div>

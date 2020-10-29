@@ -51,4 +51,17 @@ router.post('/edycja', async(req, res)=>{
     
 });
 
+router.get(`/usun/:idJednostki`, async (req, res) => {
+
+    await bazaJednostek.usun(req.params.idJednostki).then();
+
+    res.render('komunikat',{
+        naglowek: {},
+         menu: menu.pobierz(req)
+    })
+
+      //  res.redirect(`/strazacy/${req.params.idJednostki}`);
+    
+});
+
 module.exports = router;

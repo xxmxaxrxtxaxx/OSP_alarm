@@ -5,7 +5,7 @@ const passport = require('passport');
 var menu=require('../controllers/menu');
 
 router.post('/',
-    passport.authenticate('local',{successRedirect: '/jednostki', failureRedirect: '/logowanie', })
+    passport.authenticate('local',{successRedirect: '/stronaGlowna', failureRedirect: '/logowanie', })
     
 );
 

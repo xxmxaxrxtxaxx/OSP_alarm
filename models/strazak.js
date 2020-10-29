@@ -1,10 +1,10 @@
 class Strazak{
-    constructor(idJednostki, idUzytkownika, czyKierowca, czyDowodca, czyKpp){
-        this.idJednostki=idJednostki;
-        this.idUzytkownika=idUzytkownika;
-        this.czyKierowca=czyKierowca;
-        this.czyDowdca=czyDowodca;
-        this.czyKpp=czyKpp;
+    constructor(pola){
+        this.idJednostki=pola.idJednostki;
+        this.idUzytkownika=pola.idUzytkownika;
+        this.czyKierowca=pola.czyKierowca;
+        this.czyDowdca=pola.czyDowodca;
+        this.czyKpp=pola.czyKpp;
     }
 }
 module.exports=Strazak;

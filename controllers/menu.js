@@ -1,5 +1,6 @@
 module.exports={
     pobierz:(req)=>{return {
-        czyZalogowany:req.isAuthenticated()
+        czyZalogowany:req.isAuthenticated(),
+        idUzytkownika:(req.user||{}).id
     }}
 }

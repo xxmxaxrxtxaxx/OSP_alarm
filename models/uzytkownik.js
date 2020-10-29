@@ -1,11 +1,11 @@
 class Uzytkownik{
-    constructor(id, imie, nazwisko, numerTelefonu, login, haslo){
-    this.id=id;
-    this.imie=imie;
-    this.nazwisko=nazwisko;
-    this.numerTelefonu=numerTelefonu;
-    this.login=login;
-    this.haslo=haslo;
+    constructor(pola){
+    this.id=pola.id;
+    this.imie=pola.imie;
+    this.nazwisko=pola.nazwisko;
+    this.numerTelefonu=pola.numerTelefonu;
+    this.login=pola.login;
+    this.haslo=pola.haslo;
     this.czyAdmin=false;
     this.administrowaneJednostki= [];
     }

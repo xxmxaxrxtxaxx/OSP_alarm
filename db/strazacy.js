@@ -1,5 +1,13 @@
 const Strazak = require("../models/strazak");
 
+var konwertuj = (rekordZBazy)=>new Strazak(
+    {id:rekordZBazy.idJednostki,
+    idUzytkownika: rekordZBazy.idUzytkownika,
+    czyKierowca: rekordZBazy.czyKierowca,
+    czyDowodca: rekordZBazy.czyDowodca, 
+    czyKpp: rekordZBazy.czyKpp});
+    
+
 module.exports = {
     ZnajdzPoIdJednostki: (idJednostki) =>{
         return new Promise((resolve, reject) => {
@@ -9,7 +17,7 @@ module.exports = {
                     var strazacy = [];
                     for (var i = 0; i < wyniki.length; i++) {
                         var w = wyniki[i];
-                        strazacy.push(new Strazak(w.id_jednostki, w.id_uzytkownika, w.czy_kierowca, w.czy_dowodca, w.czy_kpp))
+                        strazacy.push(konwertu(w))
                     }
                     resolve(strazacy);
                 });
@@ -22,12 +30,21 @@ module.exports = {
                     if (blad) reject(blad);
                     if(wyniki.length>0){
                         var w = wyniki[0];
-                        resolve(new Strazak(w.id_jednostki, w.id_uzytkownika, w.czy_kierowca, w.czy_dowodca, w.czy_kpp));
+                        resolve(konwertuj(w));
 
                     }else{
                       resolve(null);  
                     }
                     
+                });
+        })
+    },
+    usun: (idStrazaka) => {
+        return new Promise((resolve, reject) => {
+            global.baza.query(`delete from strazak where id_uzytkownika=${idStrazaka}`,
+                (blad, wyniki, pola) => {
+                    if (blad) reject(blad);
+                    resolve(wyniki);
                 });
         })
     }

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('naglowek', {});  %>
+
+
+<body id="page-top">
+
+    <%- include('menu', menu);  %>
+
+    <header class="masthead2">
+        <div class="container h-10">
+
+            <div class="row h-100 align-items-center justify-content-center text-center">
+                <div class="col-lg-10">
+                    <h2 class="text-uppercase text-white font-weight-bold">Podaj opis alarmu</h2>
+                    <br><br>
+
+                </div>
+
+                <form action="/zdarzenie/zapisz" method="POST">
+
+                    <div class="form-group">
+                        <label for="login" class="text text-white">Opis</label>
+                        <input type="text" readonly class="form-control" name="login" value="<%=zdarzenie.opis%>"
+                            id="login" placeholder="Twój Login">
+                    </div>
+                    <br>
+                    <br><br>
+                    <button type="submit" class="btn btn-primary btn-lg">Wezwij jednostkę!</button>
+
+
+            </div>
+            </form>
+
+        </div>
+
+    </header>
+
+</body>
+
+</html>

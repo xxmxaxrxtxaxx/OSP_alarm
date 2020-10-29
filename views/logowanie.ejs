@@ -1,35 +1,39 @@
-
 <html>
 
-    <%- include('naglowek', {});  %>
+<%- include('naglowek', {});  %>
 
 <body id="page-top">
 
- 
+
 
     <!-- Masthead-->
     <header class="masthead2">
+
+
+
+
         <div class="container h-10">
-            <div class="row h-100 align-items-center justify-content-center text-center">
-                <div class="col-lg-10 align-self-end">
+            <div class="row h-100 align-items-start justify-content-center text-center">
+                <div class="col-lg-3 align-self-start">
                     <h1 class="text-uppercase text-white font-weight-bold">Logowanie</h1>
                     <hr class="divider my-4" />
+
+                    <form action="/logowanie" method="POST">
+                        <div class="form-group">
+
+                            <label for="twojLogin" class="text-white">Twój login</label>
+                            <input type="text" class="form-control " id="login" name="login" aria-describedby="login"
+                                placeholder="Wpisz login">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="przykladoweHaslo" class="text-white">Hasło</label>
+                            <input type="password" class="form-control" id="haslo" name="haslo"
+                                placeholder="Wpisz hasło">
+                        </div><br>
+                        <button type="submit" class="btn btn-primary">Zaloguj</button>
+                    </form>
                 </div>
-                <form action="/logowanie" method="POST">
-                    <div class="form-group">
-
-                        <label for="twojLogin" class="text-white">Twój login</label>
-                        <input type="text" class="form-control " id="login" name="login" aria-describedby="login"
-                            placeholder="Wpisz login">
-
-                    </div>
-                    <div class="form-group">
-                        <label for="przykladoweHaslo" class="text-white">Hasło</label>
-                        <input type="password" class="form-control" id="haslo" name="haslo" placeholder="Wpisz hasło">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Zaloguj</button>
-                </form>
-
 
 
             </div>

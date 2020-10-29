@@ -26,7 +26,9 @@
                                     
                                     <th scope="col">Nazwa jednostki</th>
                                     <th scope="col">Adres</th>
+                                    <th scope="col"> Historia alarmów</th>
                                     <th scope="col"></th>
+                                    
                            
                                 </tr>
                             </thead>
@@ -36,11 +38,14 @@
                                     
                                     <td><%= lista[i].nazwa %></td>
                                     <td><%= lista[i].adres %></td>
-                                    <td><a href="/strazacy/<%=lista[i].id%>">Zobacz strażaków</a>
-                                        <a href="/jednostki/edycja/<%=lista[i].id%>"> Edytuj </a>
-                                        <a href="#"> Usuń </a></td>
+                                    <td><a href="/zdarzenia/<%=lista[i].id%>"> <img src="/img/history.png" alt="Historia alarmów"></a></td>
+                                    <td><a href="/strazacy/<%=lista[i].id%>"><img src="/img/group.png" alt="Zobacz strażaków"></a>
+                                        <a href="/jednostki/edycja/<%=lista[i].id%>"><img src="/img/settings.png" alt="Edytuj">  </a>
+                                        <a href="/jednostki/usun/<%=lista[i].id%>">  <img src="/img/delete.png" alt="Usuń"></a></td>
+                                     
  
                                 </tr>
+                                
                                 <% }   %>
 
                             </tbody>

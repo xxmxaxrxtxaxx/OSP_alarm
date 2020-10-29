@@ -40,5 +40,18 @@ module.exports = {
                     resolve(wyniki);
                 });
         })
+    },
+
+    wstaw: (zdarzenie) => {
+        return new Promise((resolve, reject) => {
+
+            global.baza.query(`insert into zdarzenie (id_jednostki, data, opis, id_alarmujacego) 
+            values ('${zdarzenie.idJednostki}', '${zdarzenie.data}', '${zdarzenie.opis}', '${zdarzenie.idAlarmujacego}')`,
+                (blad, wyniki, pola) => {
+                    if (blad) reject(blad);
+                    
+                    resolve(wyniki);
+                });
+        })
     }
 }

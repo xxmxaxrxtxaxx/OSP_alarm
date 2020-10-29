@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('naglowek', {});  %>
+
+<body id="page-top">
+    <%- include('menu', menu);  %>
+
+
+    <header class="masthead2">
+        <div class="container h-10">
+            <div class="row h-100 align-items-center justify-content-center text-center">
+                <div class="col-lg-10 align-self-end">
+                    <h1 class="text-uppercase text-white font-weight-bold">Witaj na stronie alarmuj!</h1>
+                    <hr class="divider my-4" />
+                    
+                    <img src="/img/fireman.png" alt="ikona" class="rounded-circle"><br><br>
+                    
+                    <h3 class="form-text text-white">Alarmuj to niezbędnik każdego strażaka!</h3><br><br>
+
+
+                    <%if(!czyZalogowany){%>
+                    <button type="submit" class="btn btn-primary btn-lg js-scroll-trigger">Zaloguj się</button>
+                    <%}%>
+                    
+                </div>
+                    
+               
+               
+               
+            </div>
+        </div>
+    </header>
+    
+</body>
+</html>
