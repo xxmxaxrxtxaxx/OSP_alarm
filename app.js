@@ -7,6 +7,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const session=require("express-session");
 const bazaUzytkownikow=require("./db/uzytkownicy");
 const port = process.env.port;
+const flash = require("connect-flash");
 
 
 const baza=mysql.createPool(process.env.connection_strig);
@@ -69,6 +70,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 
 app.use(`/jednostki`,require("./controllers/jednostki"));

@@ -5,12 +5,13 @@ const passport = require('passport');
 var menu=require('../controllers/menu');
 
 router.post('/',
-    passport.authenticate('local',{successRedirect: '/stronaGlowna', failureRedirect: '/logowanie', })
+    passport.authenticate('local',{successRedirect: '/stronaGlowna', failureRedirect: '/logowanie', failureFlash: true })
     
 );
 
 router.get('/', (req,res)=>{
     res.render('logowanie', {
+        menu: menu.pobierz(req),
 
     })
   

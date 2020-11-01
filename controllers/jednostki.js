@@ -55,12 +55,9 @@ router.get(`/usun/:idJednostki`, async (req, res) => {
 
     await bazaJednostek.usun(req.params.idJednostki).then();
 
-    res.render('komunikat',{
-        naglowek: {},
-         menu: menu.pobierz(req)
-    })
+   req.flash('success', "Usunięto jednostkę");
 
-      //  res.redirect(`/strazacy/${req.params.idJednostki}`);
+    res.redirect(`/jednostki`);
     
 });
 

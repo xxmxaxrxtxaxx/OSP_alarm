@@ -18,3 +18,18 @@
         </div>
     </div>
 </nav>
+<script type="text/javascript">
+
+var bledy=<%- JSON.stringify(bledy)%>;
+var potwierdzenia=<%- JSON.stringify(potwierdzenia)%>;
+
+for(var i=0; i<bledy.length; i++){
+    $.notify(bledy[i], "error");
+}
+
+for(var i=0; i<potwierdzenia.length; i++){
+    $.notify(potwierdzenia[i], "success");
+}
+
+
+</script>
