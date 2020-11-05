@@ -1,16 +1,16 @@
 const moment = require('moment');
 
 class Zdarzenie{
-    constructor(id, idJednostki, data, opis, idAlarmujacego){
-    this.id=id;
-    this.idJednostki=idJednostki;
-    this.data=data;
-    this.opis=opis;
-    this.idAlarmujacego=idAlarmujacego;
+    constructor(pola){
+    this.id=pola.id;
+    this.idJednostki=pola.idJednostki;
+    this.data=pola.data;
+    this.opis=pola.opis;
+    this.idAlarmujacego=pola.idAlarmujacego;
     
     };
     dataFormat(){
-        return moment(this.data).format("l");
+        return moment(this.data).format("L");
     }
 
 }

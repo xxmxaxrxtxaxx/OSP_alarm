@@ -22,8 +22,7 @@ const sessionConfig={
 
 passport.use(new LocalStrategy({
     usernameField: 'login',
-    passwordField: 'haslo',
-    
+    passwordField: 'haslo'
 },
      (username, password, callback)=> {
         
@@ -38,7 +37,7 @@ passport.use(new LocalStrategy({
 
             }
             else{
-                callback(null,false,{message:"brak użytkownika o tej nazwie"});
+                callback(null,false,{message:"Brak użytkownika o tej nazwie"});
             }
         })
         

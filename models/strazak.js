@@ -3,7 +3,7 @@ class Strazak{
         this.idJednostki=pola.idJednostki;
         this.idUzytkownika=pola.idUzytkownika;
         this.czyKierowca=pola.czyKierowca;
-        this.czyDowdca=pola.czyDowodca;
+        this.czyDowodca=pola.czyDowodca;
         this.czyKpp=pola.czyKpp;
     }
 }

@@ -91,6 +91,18 @@ module.exports = {
                     resolve(wyniki);
                 });
         })
+    },
+
+    zmienHaslo:(uzytkownik)=>{
+        return new Promise((resolve, reject) => {
+            global.baza.query(`update uzytkownik set haslo='${uzytkownik.haslo}'
+             where id='${uzytkownik.id}'`,
+                (blad, wyniki, pola) => {
+                    if (blad) reject(blad);
+                    
+                    resolve(wyniki);
+                });
+        })
     }
 
 }

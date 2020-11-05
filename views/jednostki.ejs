@@ -15,9 +15,9 @@
  
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-lg-8 text-center">
+                <div class="col-lg-10 text-center">
                     <h2 class="text-white mt-0">Przypisane jednostki</h2>
-                    <hr class="divider light my-4" />
+                    <hr class="divider light my-2" />
                    
 
                         <table class="table table-striped table-dark">
@@ -27,6 +27,7 @@
                                     <th scope="col">Nazwa jednostki</th>
                                     <th scope="col">Adres</th>
                                     <th scope="col"> Historia alarmów</th>
+                                    <th scope="col"></th>
                                     <th scope="col"></th>
                                     
                            
@@ -38,13 +39,20 @@
                                     
                                     <td><%= lista[i].nazwa %></td>
                                     <td><%= lista[i].adres %></td>
+                                    
                                     <td><a href="/zdarzenia/<%=lista[i].id%>"> <img src="/img/history.png" alt="Historia alarmów"></a></td>
+
+                                    <td><a class="btn btn-primary js-scroll-trigger" href="/zdarzenia/<%=lista[i].id%>/dodaj">Uruchom alarm!</a></td>
+                                    
                                     <td><a href="/strazacy/<%=lista[i].id%>"><img src="/img/group.png" alt="Zobacz strażaków"></a>
                                         <a href="/jednostki/edycja/<%=lista[i].id%>"><img src="/img/settings.png" alt="Edytuj">  </a>
                                         <a href="/jednostki/usun/<%=lista[i].id%>">  <img src="/img/delete.png" alt="Usuń"></a></td>
                                      
  
                                 </tr>
+                                
+                                   
+                                
                                 
                                 <% }   %>
 

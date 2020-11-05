@@ -18,13 +18,15 @@
 
                 </div>
 
-                <form action="/zdarzenie/zapisz" method="POST">
+                <form action="/zdarzenia/<%=idJednostki%>/zapisz" method="POST">
 
                     <div class="form-group">
-                        <label for="login" class="text text-white">Opis</label>
-                        <input type="text" readonly class="form-control" name="login" value="<%=zdarzenie.opis%>"
-                            id="login" placeholder="Twój Login">
+                        <label for="opis" class="text text-white">Opis</label>
+                        <input type="text" class="form-control" name="opis"
+                            id="opis" placeholder="Podaj opis">
                     </div>
+
+               
                     <br>
                     <br><br>
                     <button type="submit" class="btn btn-primary btn-lg">Wezwij jednostkę!</button>

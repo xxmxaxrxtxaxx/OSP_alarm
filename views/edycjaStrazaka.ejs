@@ -7,7 +7,7 @@
 <body id="page-top">
 
     <%- include('menu', menu);  %>
-
+   
     <header class="masthead2">
         <div class="container h-10">
 
@@ -19,27 +19,35 @@
                 </div>
             </div>
 
-            <form>
+            <form action="/strazacy/<%=strazak.idJednostki%>/<%=strazak.idUzytkownika%>/zapisz" method="POST">
                 <div class="form-group row">
 
                     <div class="col-sm-8">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="admin" id="admin">
+                            <input class="form-check-input" type="checkbox" name="admin" id="admin" value="1" >
                             <label class="form-check-label text-white" for="admin">
                                 Administrator tej jednostki
                             </label></div><br>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="kpp" id="kpp">
+                            <input class="form-check-input" type="checkbox" name="czyKpp" id="kpp" value="1" <%if(strazak.czyKpp){%>checked="checked"<%}%>>
                             <label class="form-check-label text-white" for="kpp">
                                 KPP
                             </label></div><br>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="dowodca" id="dowodca">
+                            <input class="form-check-input" type="checkbox" name="czyDowodca" id="dowodca" value="1" 
+                            <%if(strazak.czyDowodca){%>
+                                checked="checked"
+                                <%}%>
+                                >
                             <label class="form-check-label text-white" for="dowodca">
                                 Dowódzca tej jednostki
                             </label></div><br>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="kierowca" id="kierowca">
+                            <input class="form-check-input" type="checkbox" name="czyKierowca" id="kierowca" value="1" 
+                            <%if(strazak.czyKierowca){%>
+                                checked="checked"
+                                <%}%>
+                                >
                             <label class="form-check-label text-white" for="kierowca">
                                 Kierowca w tej jednostce
                             </label>
@@ -48,8 +56,9 @@
                 </div>
                 <br><br>
                 <center>
-                    
-                    <a href="zmienić na button" class="btn btn-primary btn-lg">Zapisz</a>
+                    <input type="hidden" value="<%=strazak.idJednostki%>" name="idJednostki">
+                    <input type="hidden" value="<%=strazak.idUzytkownika%>" name="idUzytkownika">
+                    <button type="submit" class="btn btn-primary btn-lg">Zapisz</button>
 
                 </center>
             </form>

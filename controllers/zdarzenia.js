@@ -6,8 +6,7 @@ var Model=require('../models/zdarzenie');
 
 router.get(`/:idJednostki`, async (req, res) => {
 
-    var listaZdarzen = [];
-    await bazaZdarzen.znajdzPoIdJednostki(req.params.idJednostki).then((wynik) => { listaZdarzen = wynik; });
+    var listaZdarzen = await bazaZdarzen.znajdzPoIdJednostki(req.params.idJednostki);
     
 
     res.render('zdarzenia', {
@@ -17,24 +16,28 @@ router.get(`/:idJednostki`, async (req, res) => {
     })
 });
 
-router.get(`/dodaj`, async (req, res) => {
+router.get(`/:idJednostki/dodaj`, async (req, res) => {
 
     res.render('dodajZdarzenie', {
         naglowek: {},
         menu: menu.pobierz(req),
+        idJednostki: req.params.idJednostki
         
     })
 
 });
 
 
-router.post('/zapisz', async(req, res)=>{
+router.post('/:idJednostki/zapisz', async(req, res)=>{
+
     var zdarzenie=new Model(req.body);
+    zdarzenie.idJednostki=req.params.idJednostki;
+    zdarzenie.idAlarmujacego=req.user.id;
     
        await bazaZdarzen.wstaw(zdarzenie);
     
     res.redirect('/jednostki');
-    
+   
 });
 
 

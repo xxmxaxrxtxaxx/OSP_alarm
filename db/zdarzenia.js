@@ -1,5 +1,11 @@
 const Zdarzenie = require("../models/zdarzenie");
 
+var konwertuj = (rekordZBazy)=>new Zdarzenie(
+    {id:rekordZBazy.id,
+    data: rekordZBazy.data,
+    opis: rekordZBazy.opis,
+    idAlarmujacego: rekordZBazy.id_alarmujacego});
+
 module.exports = {
     znajdzPoIdJednostki: (idJednostki) => {
         return new Promise((resolve, reject) => {
@@ -9,7 +15,7 @@ module.exports = {
                     var zdarzenia = [];
                     for (var i = 0; i < wyniki.length; i++) {
                         var w = wyniki[i];
-                        zdarzenia.push(new Zdarzenie(w.id, w.id_jednostki, w.data, w.opis, w.id_alarmujacego))
+                        zdarzenia.push(konwertuj(w))
                     }
                     resolve(zdarzenia);
                 });
@@ -23,7 +29,7 @@ module.exports = {
                     if (blad) reject(blad);
                     if(wyniki.length>0){
                         var w = wyniki[0];
-                        resolve(new Zdarzenie(w.id, w.id_jednostki, w.data, w.opis, w.id_alarmujacego));
+                        resolve(konwertuj(w));
 
                     }else{
                       resolve(null);  
@@ -44,9 +50,10 @@ module.exports = {
 
     wstaw: (zdarzenie) => {
         return new Promise((resolve, reject) => {
+            var aktualnaData= global.baza.query(`select getDate()`);
 
             global.baza.query(`insert into zdarzenie (id_jednostki, data, opis, id_alarmujacego) 
-            values ('${zdarzenie.idJednostki}', '${zdarzenie.data}', '${zdarzenie.opis}', '${zdarzenie.idAlarmujacego}')`,
+            values ('${zdarzenie.idJednostki}', CURDATE(), '${zdarzenie.opis}', '${zdarzenie.idAlarmujacego}')`,
                 (blad, wyniki, pola) => {
                     if (blad) reject(blad);
                     

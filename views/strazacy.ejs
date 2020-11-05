@@ -26,8 +26,7 @@
                                     
                                     <th scope="col">Imie</th>
                                     <th scope="col">Nazwisko</th>
-                                    <th scope="col">Numer telefonu</th>
-                                    <th scope="col">Funkcja</th>
+                                    <th scope="col">Numer telefonu</th>                            
                                     <th scope="col"></th>
 
                            
@@ -40,8 +39,7 @@
                                     <td><%= lista[i].imie %></td>
                                     <td><%= lista[i].nazwisko %></td>
                                     <td><%= lista[i].numerTelefonu %></td>
-                                    <td></td>
-                                    <td><a href="/strazacy/edytuj/<%=idJednostki%>/<%=lista[i].id%>">Edytuj dane</a><a href="/strazacy/usun/<%=lista[i].id%>"> Usuń</a></td>
+                                    <td><a href="/strazacy/edytuj/<%=idJednostki%>/<%=lista[i].id%>">Edytuj dane</a><a href="/strazacy/usun/<%=idJednostki%>/<%=lista[i].id%>"> Usuń</a></td>
  
                                 </tr>
                                 <% }   %>
