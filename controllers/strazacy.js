@@ -46,8 +46,32 @@ router.get('/dodajIstniejacego/:idJednostki', async (req, res) => {
      res.render('dodajIstniejacegoStrazaka', {
         naglowek: {},
          menu: menu.pobierz(req),
+         idJednostki: req.params.idJednostki
        
      })
+ });
+
+ router.post('/:idJednostki/znajdz', async(req, res)=>{
+    
+    var uzytkownik= await bazaUzytkownikow.znajdzPoNazwie(req.body.login);
+
+    if(uzytkownik){
+        var u=uzytkownik.id;
+        res.redirect(`/strazacy/edytuj/${req.params['idJednostki']}/${uzytkownik.id}`);
+        
+    }else{
+        req.flash('error', "Nie znaleziono użytkownika o tej nazwie");
+        res.render('dodajIstniejacegoStrazaka', {
+            naglowek: {},
+             menu: menu.pobierz(req),
+             idJednostki: req.params.idJednostki
+           
+         })
+    }
+
+    //if(req.body.login)
+
+
  });
 
  router.get(`/edytuj/:idJednostki/:idUzytkownika?`, async(req, res)=>{
