@@ -3,6 +3,7 @@ var router = express.Router();
 var bazaStrazakow = require('../db/uzytkownicy');
 var menu = require('../controllers/menu');
 var Model = require('../models/uzytkownik');
+const crypto = require('crypto');
 
 
 router.get('/:idUzytkownika', async (req, res) => {
@@ -43,6 +44,8 @@ router.post('/zapisz', async (req, res) => {
         if (await bazaStrazakow.znajdzPoNazwie(uzytkownik.login) == null) {
 
             uzytkownik.haslo = uzytkownik.numerTelefonu;
+            uzytkownik.haslo = crypto.createHmac('sha256', uzytkownik.haslo).digest('hex');
+            
             idUzytkownika = await bazaStrazakow.wstaw(uzytkownik);
             req.flash('success', "Dodano nowe konto");
 
@@ -78,9 +81,13 @@ router.post('/zapiszHaslo/:idUzytkownika', async (req, res) => {
     var uzytkownik = new Model(req.body);
     var daneUzytkownika=await bazaStrazakow.ZnajdzPoWlasnymId(req.params['idUzytkownika']);
 
+
+    uzytkownik.haslo = crypto.createHmac('sha256', uzytkownik.haslo).digest('hex');
+
     if(daneUzytkownika.haslo==uzytkownik.haslo){
         if(req.body.noweHaslo==req.body.powtorzHaslo){
-            uzytkownik.haslo=req.body.noweHaslo;
+            uzytkownik.haslo = crypto.createHmac('sha256', req.body.noweHaslo).digest('hex');
+           // uzytkownik.haslo=req.body.noweHaslo;
             await bazaStrazakow.zmienHaslo(uzytkownik);
             req.flash('success', "Hasło zostało zmienione");
             res.redirect(`/uzytkownik/${req.params['idUzytkownika']}`);

@@ -8,6 +8,7 @@ const session=require("express-session");
 const bazaUzytkownikow=require("./db/uzytkownicy");
 const port = process.env.port;
 const flash = require("connect-flash");
+const crypto = require('crypto');
 
 
 const baza=mysql.createPool(process.env.connection_strig);
@@ -28,6 +29,7 @@ passport.use(new LocalStrategy({
         
         bazaUzytkownikow.znajdzPoNazwie(username).then(uzytkownik=>{
             if(uzytkownik){
+                password = crypto.createHmac('sha256', password).digest('hex');
                 if(password==uzytkownik.haslo){
                     callback(null,uzytkownik);
 
