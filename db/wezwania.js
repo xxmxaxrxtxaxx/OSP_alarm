@@ -18,6 +18,22 @@ module.exports = {
                 });
         })
     },
+    ZnajdzPoIdUzytkownika: (idUzytkownika) => {
+        return new Promise((resolve, reject) => {
+            global.baza.query(`select status, godzina_odpowiedzi, lokalizacja from wezwanie where id_uzytkownika='${idUzytkownika}'`,
+                (blad, wyniki, pola) => {
+                    if (blad) reject(blad);
+                    if (wyniki.length > 0) {
+                        var w = wyniki[0];
+                        resolve(new Wezwanie(w.status, w.godzina_odpowiedzi, w.lokalizacja));
+
+                    } else {
+                        resolve(null);
+                    }
+
+                });
+        })
+    },
 
 
 }

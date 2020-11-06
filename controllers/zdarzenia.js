@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var bazaZdarzen = require('../db/zdarzenia');
+var bazaUzytkownikow = require('../db/uzytkownicy');
+var bazaWezwan =  require('../db/wezwania');
 var menu=require('../controllers/menu');
 var Model=require('../models/zdarzenie');
 
@@ -12,7 +14,8 @@ router.get(`/:idJednostki`, async (req, res) => {
     res.render('zdarzenia', {
         naglowek: {},
         menu: menu.pobierz(req),
-        listaZdarzen: listaZdarzen
+        listaZdarzen: listaZdarzen,
+        idJednostki:req.params['idJednostki']
     })
 });
 
@@ -38,6 +41,21 @@ router.post('/:idJednostki/zapisz', async(req, res)=>{
     
     res.redirect('/jednostki');
    
+});
+
+router.get('/szczegoly/:idJednostki/:idZdarzenia', async(req, res)=>{
+    
+    listaWezwanych= await bazaUzytkownikow.znajdzPoJednostce(req.params['idJednostki']);
+ //  var listaInformacji = await bazaWezwan.ZnajdzPoIdUzytkownika(listaWezwanych.id);
+
+    res.render('szczegolyAlarmu', {
+        naglowek: {},
+        menu: menu.pobierz(req),
+        listaWezwanych:listaWezwanych,
+    //    listaInformacji:listaInformacji
+        
+    })
+
 });
 
 
