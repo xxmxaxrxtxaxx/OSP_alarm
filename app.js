@@ -6,7 +6,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session=require("express-session");
 const bazaUzytkownikow=require("./db/uzytkownicy");
-const port = process.env.port;
+const port = process.env.PORT;
 const flash = require("connect-flash");
 const crypto = require('crypto');
 
