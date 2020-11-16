@@ -11,7 +11,7 @@ const flash = require("connect-flash");
 const crypto = require('crypto');
 
 
-const baza=mysql.createPool(process.env.connection_strig);
+const baza=mysql.createPool(process.env.CLEARDB_DATABASE_URL);
 global.baza=baza;
 global.passport=passport;
 
