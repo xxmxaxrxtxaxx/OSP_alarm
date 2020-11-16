@@ -80,7 +80,7 @@ app.use(`/strazacy`,require("./controllers/strazacy"));
 app.use(`/logowanie`,require("./controllers/logowanie"));
 app.use(`/uzytkownik`,require("./controllers/uzytkownik"));
 app.use(`/zdarzenia`, require("./controllers/zdarzenia"));
-app.use(`/stronaGlowna`, require("./controllers/stronaGlowna"));
+app.use(`/`, require("./controllers/stronaGlowna"));
 
 
 
