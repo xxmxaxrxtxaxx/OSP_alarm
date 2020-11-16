@@ -55,6 +55,7 @@ router.post('/:idJednostki/zapisz', async(req, res)=>{
 router.get('/szczegoly/:idJednostki/:idZdarzenia', async(req, res)=>{
     
    var listaDoWyswietlenia=[];
+   var zdarzenie = await bazaZdarzen.ZnajdzPoWlasnymId(req.params.idZdarzenia);
 
 
     listaWezwan= await bazaWezwan.ZnajdzPoIdZdarzenia(req.params.idZdarzenia);
@@ -67,7 +68,10 @@ router.get('/szczegoly/:idJednostki/:idZdarzenia', async(req, res)=>{
             godzinaOdpowiedzi:listaWezwan[i].godzinaOdpowiedzi, 
             status:listaWezwan[i].status, 
             lokalizacja: listaWezwan[i].lokalizacja,
-            funkcja: strazak.wyswietlFunkcje()});
+            funkcja: strazak.wyswietlFunkcje(),
+            opis: zdarzenie.opis,
+        })
+           
     }
  
     res.render('szczegolyAlarmu', {

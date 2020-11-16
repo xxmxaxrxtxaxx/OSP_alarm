@@ -21,14 +21,12 @@ ZnajdzAdministrowaneJednostki:(idUzytkownika)=>{
 },
 ZnajdzJednostkiAlarmujacego:(idUzytkownika)=>{
     return new Promise((resolve, reject) => {
-        global.baza.query(`select j.id, j.nazwa, j.adres 
+        global.baza.query(`select j.id
         from jednostka j join alarmujacy a on j.id=a.id_jednostki
         where a.id_uzytkownika=${idUzytkownika} `,
             (blad, wyniki, pola) => {
                 if (blad) reject(blad);
-                for (var i = 0; i < wyniki.length; i++) {
-                    var w = wyniki[i];
-                }
+                
                 resolve(wyniki);
                 
             });
@@ -42,9 +40,7 @@ ZnajdzJednostkiStrazaka:(idUzytkownika)=>{
         where s.id_uzytkownika=${idUzytkownika} `,
             (blad, wyniki, pola) => {
                 if (blad) reject(blad);
-                for (var i = 0; i < wyniki.length; i++) {
-                    var w = wyniki[i];
-                }
+               
                 resolve(wyniki);
                 
             });
