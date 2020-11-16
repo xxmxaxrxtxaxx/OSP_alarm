@@ -31,18 +31,18 @@
                                         <th>Godzina odpowiedzi</th>
                                         <th>Status</th>
                                         <th>Lokalizacja</th>
+                                        <th> Funkcja</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% for(var i=0;i<listaWezwanych.length;i++){ %>   
+                                    <% for(var i=0;i<listaDoWyswietlenia.length;i++){ %>   
                                     <tr>
-                                        <td><%= listaWezwanych[i].imie %></td>
-                                        <td><%= listaWezwanych[i].nazwisko%></td>
-                     
-
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td><%= listaDoWyswietlenia[i].imie %></td>
+                                        <td><%= listaDoWyswietlenia[i].nazwisko%></td>
+                                        <td><%= listaDoWyswietlenia[i].godzinaOdpowiedzi%></td>
+                                        <td><%= listaDoWyswietlenia[i].status%></td>
+                                        <td><%= listaDoWyswietlenia[i].lokalizacja%></td>
+                                        <td><%= listaDoWyswietlenia[i].funkcja%> </td>
                                     </tr>
                                     <%}%>
 

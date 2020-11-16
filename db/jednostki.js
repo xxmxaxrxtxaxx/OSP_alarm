@@ -6,11 +6,11 @@ var konwertuj = (rekordZBazy)=>new Jednostka(
        adres:   rekordZBazy.adres});
 
 module.exports = {
-    ZnajdzPoIdStrazaka: (idStrazaka) =>{
+    ZnajdzPoIdStrazaka: (idUzytkownika) =>{
         return new Promise((resolve, reject) => {
             global.baza.query(`select j.id, j.nazwa, j.adres 
             from jednostka j join strazak s on j.id=s.id_jednostki
-            where s.id_uzytkownika=${idStrazaka} `,
+            where s.id_uzytkownika=${idUzytkownika} `,
                 (blad, wyniki, pola) => {
                     if (blad) reject(blad);
                     var listaJednostek=[];

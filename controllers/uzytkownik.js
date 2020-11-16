@@ -47,6 +47,9 @@ router.post('/zapisz', async (req, res) => {
             uzytkownik.haslo = crypto.createHmac('sha256', uzytkownik.haslo).digest('hex');
             
             idUzytkownika = await bazaStrazakow.wstaw(uzytkownik);
+            if(czyAdmin){
+                console.log("tak");
+            }
             req.flash('success', "Dodano nowe konto");
 
             if (req.body.idJednostki && !uzytkownik.id) {

@@ -103,6 +103,23 @@ module.exports = {
                     resolve(wyniki);
                 });
         })
-    }
+    },
+    
+    znajdzAlarmujacychPoIdJednostki: (idJednostki) => {
+        return new Promise((resolve, reject) => {
+            global.baza.query(`select u.id, u.imie, u.nazwisko, u.numer_telefonu from uzytkownik u join alarmujacy a on u.id=a.id_uzytkownika and a.id_jednostki=${idJednostki}`,
+                (blad, wyniki, pola) => {
+                    if (blad) reject(blad);
+                    var alarmujacy = [];
+                    for (var i = 0; i < wyniki.length; i++) {
+                        var w = wyniki[i];
+                        alarmujacy.push(konwertuj(w))
+                    }
+                    resolve(alarmujacy);
+                });
+        })
+    },
+   
+
 
 }

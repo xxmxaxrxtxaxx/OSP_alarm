@@ -57,7 +57,7 @@ module.exports = {
                 (blad, wyniki, pola) => {
                     if (blad) reject(blad);
                     
-                    resolve(wyniki);
+                    resolve(wyniki.insertId);
                 });
         })
     }

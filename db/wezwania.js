@@ -18,22 +18,34 @@ module.exports = {
                 });
         })
     },
-    ZnajdzPoIdUzytkownika: (idUzytkownika) => {
+ 
+    ZnajdzPoIdZdarzenia: (idZdarzenia) => {
         return new Promise((resolve, reject) => {
-            global.baza.query(`select status, godzina_odpowiedzi, lokalizacja from wezwanie where id_uzytkownika='${idUzytkownika}'`,
+            global.baza.query(`select id_zdarzenia, id_uzytkownika, status, godzina_odpowiedzi, lokalizacja, id from wezwanie where id_zdarzenia='${idZdarzenia}'`,
                 (blad, wyniki, pola) => {
                     if (blad) reject(blad);
-                    if (wyniki.length > 0) {
-                        var w = wyniki[0];
-                        resolve(new Wezwanie(w.status, w.godzina_odpowiedzi, w.lokalizacja));
-
-                    } else {
-                        resolve(null);
+                    var wezwania = [];
+                    for (var i = 0; i < wyniki.length; i++) {
+                        var w = wyniki[i];
+                        wezwania.push(new Wezwanie(w.id_zdarzenia,w.id_uzytkownika,w.status,w.godzina_odpowiedzi,w.lokalizacja,w.id));
                     }
+                    resolve(wezwania);
 
                 });
         })
     },
+    wstaw: (wezwanie) => {
+        return new Promise((resolve, reject) => {
+
+            global.baza.query(`insert into wezwanie (id_uzytkownika, status, godzina_odpowiedzi, lokalizacja, id_zdarzenia) 
+            values (${wezwanie.idUzytkownika}, '${wezwanie.status}', ${wezwanie.godzinaOdpowiedzi || null},
+             '${wezwanie.lokalizacja}', ${wezwanie.idZdarzenia})`,
+                (blad, wyniki, pola) => {
+                    if (blad) reject(blad);
+                    resolve(wyniki.insertId);
+                });
+        })
+    }
 
 
 }

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var bazaUzytkownikow = require('../db/uzytkownicy');
 var bazaStrazakow=require('../db/strazacy');
+var bazaUprawnienia=require('../db/uprawnienia');
 var menu=require('../controllers/menu');
 var Strazak=require('../models/strazak');
 const Uzytkownik = require('../models/uzytkownik');
@@ -10,11 +11,13 @@ router.get(`/:idJednostki`, async (req, res) => {
 
     var listaStrazakow = [];
     await bazaUzytkownikow.znajdzPoJednostce(req.params.idJednostki).then((wynik) => { listaStrazakow = wynik; });
+    await bazaUzytkownikow.znajdzAlarmujacychPoIdJednostki(req.params.idJednostki).then((wynik) => { listaAlarmujacych = wynik; });
     
 
     res.render('strazacy', {
         naglowek: {},
         menu: menu.pobierz(req),
+        listaAlarmujacych:listaAlarmujacych,
         lista: listaStrazakow,
         idJednostki: req.params.idJednostki
     })
@@ -28,6 +31,16 @@ router.get(`/usun/:idJednostki/:idStrazaka`, async (req, res) => {
 
     
 });
+router.get(`/usunAlarmujacego/:idJednostki/:idStrazaka`, async (req, res) => {
+
+    await bazaUprawnienia.usunAlarmujacego(req.params['idJednostki'], req.params['idStrazaka']).then();
+    req.flash('success', "Usunięto alarmującego");
+    res.redirect(`/strazacy/${req.params['idJednostki']}`);
+
+    
+});
+
+
 
  router.get('/dodajNowego/:idJednostki', async (req, res) => {
 
@@ -35,7 +48,8 @@ router.get(`/usun/:idJednostki/:idStrazaka`, async (req, res) => {
         naglowek: {},
          menu: menu.pobierz(req),
          uzytkownik: new Uzytkownik({}),
-         idJednostki: req.params.idJednostki
+         idJednostki: req.params.idJednostki,
+         czyAlarmujacy: null//poprawić
        
      })
  });
@@ -119,6 +133,8 @@ router.post('/:idJednostki/:idUzytkownika/zapisz', async(req, res)=>{
     
     
 });
+
+
 
 
 
