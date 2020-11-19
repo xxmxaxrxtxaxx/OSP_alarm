@@ -74,7 +74,9 @@ router.get('/dodajIstniejacego/:idJednostki', async (req, res) => {
 
  router.get(`/zapiszAlarmujacego/:idJednostki/:idUzytkownika`, async (req,res)=>{
 
-//zapisać w bazie alarmującego i redirect do jednostki
+    await bazaUprawnienia.wstawAlarmujacego(req.params.idJednostki, req.params.idUzytkownika);
+    req.flash('success', "Dodano alarmującego");
+    res.redirect(`/strazacy/${req.params['idJednostki']}`);
 
  });
 
@@ -113,14 +115,16 @@ router.get('/dodajIstniejacego/:idJednostki', async (req, res) => {
     if(req.params['idUzytkownika']){
         
 
-        var strazak= await bazaStrazakow.ZnajdzPoWlasnymId(req.params['idJednostki'], req.params['idUzytkownika'])
+        var strazak= await bazaStrazakow.ZnajdzPoWlasnymId(req.params['idUzytkownika'], req.params['idJednostki']);
+        var admin=await bazaUprawnienia.SprawdzCzyAdminJednostki(req.params['idUzytkownika'], req.params['idJednostki']);
         if(!strazak){
             strazak= new Strazak({idJednostki: req.params['idJednostki'], idUzytkownika: req.params['idUzytkownika']});
         }
         res.render('edycjaStrazaka',{
             naglowek: {},
             menu: menu.pobierz(req),
-            strazak: strazak
+            strazak: strazak,
+            admin:admin
     
         })
 
@@ -148,10 +152,9 @@ router.post('/:idJednostki/:idUzytkownika/zapisz', async(req, res)=>{
     }
 
     if(req.body.admin){
-        //sprawdz czy juz jest adminem
-        //wstaw nowego admina
+        await bazaUprawnienia.wstawAdminaJednostki(req.params.idJednostki, req.params.idUzytkownika);
     }else{
-        //usuń admina
+        await bazaUprawnienia.usunAdminaJednostki(req.params.idJednostki, req.params.idUzytkownika);
     }
 
     req.flash('success', "Zapisano");

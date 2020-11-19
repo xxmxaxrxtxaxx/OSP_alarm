@@ -60,11 +60,11 @@ router.post('/zapisz', async (req, res) => {
  
             req.flash('success', "Dodano nowe konto");
 
-            if(nastepnaStrona=="edycjaStrazaka"){
+            if(req.body.nastepnaStrona=="edycjaStrazaka"){
                 res.redirect(`/strazacy/edytuj/${req.body.idJednostki}/${idUzytkownika}`);
 
-            }else if(nastepnaStrona=="edycjaAlarmujacego"){
-                res.redirect(`/strazacy/zapiszAlarmujacego`);
+            }else if(req.body.nastepnaStrona=="edycjaAlarmujacego"){
+                res.redirect(`/strazacy/zapiszAlarmujacego/${req.body.idJednostki}/${idUzytkownika}`);
 
 
             }else{

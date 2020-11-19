@@ -6,7 +6,7 @@ var menu=require('../controllers/menu');
 
 router.post('/',
     passport.authenticate('local',
-    {successRedirect: '/stronaGlowna', 
+    {successRedirect: '/', 
      failureRedirect: '/logowanie', 
      failureFlash: true,
      badRequestMessage : 'Uzupełnij wszystkie pola' })
