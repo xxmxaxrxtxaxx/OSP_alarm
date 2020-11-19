@@ -1,27 +1,42 @@
 var express = require('express');
 var router = express.Router();
 var bazaUzytkownikow = require('../db/uzytkownicy');
-var bazaStrazakow=require('../db/strazacy');
-var bazaUprawnienia=require('../db/uprawnienia');
-var menu=require('../controllers/menu');
-var Strazak=require('../models/strazak');
+var bazaStrazakow = require('../db/strazacy');
+var bazaUprawnienia = require('../db/uprawnienia');
+var menu = require('../controllers/menu');
+var Strazak = require('../models/strazak');
 const Uzytkownik = require('../models/uzytkownik');
 
-router.get(`/:idJednostki`, async (req, res) => {
+router.get(`/:idJednostki`,
+    (req, res, next) => {
+        if (req.isAuthenticated()) {
+            if (req.user.czyStrazak(req.params.idJednostki) || req.user.czyAdminJednostki(req.params.idJednostki) || req.user.czyAdmin) {
+                return next();
+            } else {
+                req.flash('error', "Brak uprawnień");
+                return res.redirect('/');
+            }
 
-    var listaStrazakow = [];
-    await bazaUzytkownikow.znajdzPoJednostce(req.params.idJednostki).then((wynik) => { listaStrazakow = wynik; });
-    await bazaUzytkownikow.znajdzAlarmujacychPoIdJednostki(req.params.idJednostki).then((wynik) => { listaAlarmujacych = wynik; });
-    
+        } else {
+            req.flash('error', "Brak dostępu dla nie zalogowanych");
+            return res.redirect('/');
+        }
 
-    res.render('strazacy', {
-        naglowek: {},
-        menu: menu.pobierz(req),
-        listaAlarmujacych:listaAlarmujacych,
-        lista: listaStrazakow,
-        idJednostki: req.params.idJednostki
-    })
-});
+    }, async (req, res) => {
+
+        var listaStrazakow = [];
+        await bazaUzytkownikow.znajdzPoJednostce(req.params.idJednostki).then((wynik) => { listaStrazakow = wynik; });
+        await bazaUzytkownikow.znajdzAlarmujacychPoIdJednostki(req.params.idJednostki).then((wynik) => { listaAlarmujacych = wynik; });
+
+
+        res.render('strazacy', {
+            naglowek: {},
+            menu: menu.pobierz(req),
+            listaAlarmujacych: listaAlarmujacych,
+            lista: listaStrazakow,
+            idJednostki: req.params.idJednostki
+        })
+    });
 
 router.get(`/usun/:idJednostki/:idStrazaka`, async (req, res) => {
 
@@ -29,7 +44,7 @@ router.get(`/usun/:idJednostki/:idStrazaka`, async (req, res) => {
     req.flash('success', "Usunięto strażaka");
     res.redirect(`/strazacy/${req.params['idJednostki']}`);
 
-    
+
 });
 router.get(`/usunAlarmujacego/:idJednostki/:idStrazaka`, async (req, res) => {
 
@@ -37,12 +52,12 @@ router.get(`/usunAlarmujacego/:idJednostki/:idStrazaka`, async (req, res) => {
     req.flash('success', "Usunięto alarmującego");
     res.redirect(`/strazacy/${req.params['idJednostki']}`);
 
-    
+
 });
 
 
- router.get('/dodajNowego/:idJednostki', async (req, res) => {
-     res.redirect(`/uzytkownik/?idJednostki=${req.params.idJednostki}&nastepnaStrona=edycjaStrazaka`)
+router.get('/dodajNowego/:idJednostki', async (req, res) => {
+    res.redirect(`/uzytkownik/?idJednostki=${req.params.idJednostki}&nastepnaStrona=edycjaStrazaka`)
 
     //  res.render('edycjaUzytkownika', {
     //     naglowek: {},
@@ -50,58 +65,58 @@ router.get(`/usunAlarmujacego/:idJednostki/:idStrazaka`, async (req, res) => {
     //      uzytkownik: new Uzytkownik({}),
     //      idJednostki: req.params.idJednostki,
     //      czyAlarmujacy: null
-       
+
     //  })
- });
+});
 
- router.get('/dodajNowegoAlarmujacego/:idJednostki', async(req, res) =>{
-     res.redirect(`/uzytkownik/?idJednostki=${req.params.idJednostki}&nastepnaStrona=edycjaAlarmujacego`)
+router.get('/dodajNowegoAlarmujacego/:idJednostki', async (req, res) => {
+    res.redirect(`/uzytkownik/?idJednostki=${req.params.idJednostki}&nastepnaStrona=edycjaAlarmujacego`)
 
- });
+});
 
 router.get('/dodajIstniejacego/:idJednostki', async (req, res) => {
 
-    
-      res.render('dodajIstniejacegoStrazaka', {
-         naglowek: {},
-          menu: menu.pobierz(req),
-          idJednostki: req.params.idJednostki,
-          nastepnaStrona: req.query.nastepnaStrona
-       
-      })
- });
+
+    res.render('dodajIstniejacegoStrazaka', {
+        naglowek: {},
+        menu: menu.pobierz(req),
+        idJednostki: req.params.idJednostki,
+        nastepnaStrona: req.query.nastepnaStrona
+
+    })
+});
 
 
- router.get(`/zapiszAlarmujacego/:idJednostki/:idUzytkownika`, async (req,res)=>{
+router.get(`/zapiszAlarmujacego/:idJednostki/:idUzytkownika`, async (req, res) => {
 
     await bazaUprawnienia.wstawAlarmujacego(req.params.idJednostki, req.params.idUzytkownika);
     req.flash('success', "Dodano alarmującego");
     res.redirect(`/strazacy/${req.params['idJednostki']}`);
 
- });
+});
 
 
- router.post('/:idJednostki/znajdz', async(req, res)=>{
-    
-     var uzytkownik= await bazaUzytkownikow.znajdzPoNazwie(req.body.login);
+router.post('/:idJednostki/znajdz', async (req, res) => {
 
-     if(uzytkownik){
-         if(req.body.nastepnaStrona=="edycjaStrazaka"){
-             res.redirect(`/strazacy/edytuj/${req.params.idJednostki}/${uzytkownik.id}`);
-         }
-         else{
+    var uzytkownik = await bazaUzytkownikow.znajdzPoNazwie(req.body.login);
+
+    if (uzytkownik) {
+        if (req.body.nastepnaStrona == "edycjaStrazaka") {
+            res.redirect(`/strazacy/edytuj/${req.params.idJednostki}/${uzytkownik.id}`);
+        }
+        else {
             res.redirect(`/strazacy/zapiszAlarmujacego/${req.params.idJednostki}/${uzytkownik.id}`);
-         }
-     }
-     else{
+        }
+    }
+    else {
 
         req.flash('error', "Nie znaleziono uzytkownika");
-                 
+
         res.render('dodajIstniejacegoStrazaka', {
             naglowek: {},
-             menu: menu.pobierz(req),
-             idJednostki: req.params.idJednostki,
-             nastepnaStrona: req.query.nastepnaStrona,
+            menu: menu.pobierz(req),
+            idJednostki: req.params.idJednostki,
+            nastepnaStrona: req.query.nastepnaStrona,
         })
     }
 });
@@ -109,28 +124,28 @@ router.get('/dodajIstniejacego/:idJednostki', async (req, res) => {
 
 
 
- router.get(`/edytuj/:idJednostki/:idUzytkownika?`, async(req, res)=>{
-    
+router.get(`/edytuj/:idJednostki/:idUzytkownika?`, async (req, res) => {
 
-    if(req.params['idUzytkownika']){
-        
 
-        var strazak= await bazaStrazakow.ZnajdzPoWlasnymId(req.params['idUzytkownika'], req.params['idJednostki']);
-        var admin=await bazaUprawnienia.SprawdzCzyAdminJednostki(req.params['idUzytkownika'], req.params['idJednostki']);
-        if(!strazak){
-            strazak= new Strazak({idJednostki: req.params['idJednostki'], idUzytkownika: req.params['idUzytkownika']});
+    if (req.params['idUzytkownika']) {
+
+
+        var strazak = await bazaStrazakow.ZnajdzPoWlasnymId(req.params['idUzytkownika'], req.params['idJednostki']);
+        var admin = await bazaUprawnienia.SprawdzCzyAdminJednostki(req.params['idUzytkownika'], req.params['idJednostki']);
+        if (!strazak) {
+            strazak = new Strazak({ idJednostki: req.params['idJednostki'], idUzytkownika: req.params['idUzytkownika'] });
         }
-        res.render('edycjaStrazaka',{
+        res.render('edycjaStrazaka', {
             naglowek: {},
             menu: menu.pobierz(req),
             strazak: strazak,
-            admin:admin
-    
+            admin: admin
+
         })
 
 
-    }else{
-        res.render('edycjaUzytkownika',{
+    } else {
+        res.render('edycjaUzytkownika', {
             naglowek: {},
             menu: menu.pobierz(req),
             uzytkownik: new Uzytkownik({}),
@@ -139,28 +154,28 @@ router.get('/dodajIstniejacego/:idJednostki', async (req, res) => {
     }
 
 
-   
+
 });
 
-router.post('/:idJednostki/:idUzytkownika/zapisz', async(req, res)=>{
-   var daneStrazaka = await bazaStrazakow.ZnajdzPoWlasnymId(req.params['idUzytkownika'],req.params['idJednostki']);
-   var strazak=new Strazak(req.body);
-    if(daneStrazaka){
+router.post('/:idJednostki/:idUzytkownika/zapisz', async (req, res) => {
+    var daneStrazaka = await bazaStrazakow.ZnajdzPoWlasnymId(req.params['idUzytkownika'], req.params['idJednostki']);
+    var strazak = new Strazak(req.body);
+    if (daneStrazaka) {
         await bazaStrazakow.zmien(strazak);
-    }else{
+    } else {
         await bazaStrazakow.wstaw(strazak);
     }
 
-    if(req.body.admin){
+    if (req.body.admin) {
         await bazaUprawnienia.wstawAdminaJednostki(req.params.idJednostki, req.params.idUzytkownika);
-    }else{
+    } else {
         await bazaUprawnienia.usunAdminaJednostki(req.params.idJednostki, req.params.idUzytkownika);
     }
 
     req.flash('success', "Zapisano");
     res.redirect(`/strazacy/${req.params['idJednostki']}`);
-    
-    
+
+
 });
 
 

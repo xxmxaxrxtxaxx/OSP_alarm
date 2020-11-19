@@ -5,7 +5,42 @@ var bazaJednostek = require('../db/jednostki');
 var menu = require('../controllers/menu');
 var Model = require('../models/jednostka');
 
-router.get(`/`, async (req, res) => {
+
+var odczyt = (req, res, next) =>{
+ if(req.isAuthenticated()){
+    //  if(req.params.idJednostki){
+    //    if(req.user.czyStrazak(idJednostki) || req.user.czyAdminJednostki(idJednostki) || req.user.czyAdmin || req.user.czyAlarmujacy(idJednostki)){
+    //        next();
+    //    }else{
+    //     req.flash('error', "Brak uprawnień");
+    //     return res.redirect('/'); 
+    //    }
+    //  }
+    return next();
+ }else{
+    req.flash('error', "Brak dostępu dla nie zalogowanych");
+    return res.redirect('/'); 
+ }
+};
+var edycja = (req, res, next) =>{
+    if(req.isAuthenticated()){
+        if(req.params.idJednostki){
+           if( req.user.czyAdminJednostki(req.params.idJednostki) || req.user.czyAdmin){
+            return next();
+           }else{
+            req.flash('error', "Brak uprawnień");
+            return res.redirect('/'); 
+           }
+         }
+         return next();
+     }else{
+        req.flash('error', "Brak dostępu dla nie zalogowanych");
+        return res.redirect('/'); 
+     }
+};
+
+
+router.get(`/`, odczyt, async (req, res) => {
 
     var listaJednostek = [];
 
@@ -25,7 +60,7 @@ router.get(`/`, async (req, res) => {
 });
 
 
-router.get(`/edycja/:idJednostki?`, async (req, res) => {
+router.get(`/edycja/:idJednostki?`,edycja, async (req, res) => {
     var jednostka = {};
 
     if (req.params['idJednostki']) {
@@ -69,7 +104,7 @@ router.post('/edycja', async (req, res) => {
 
 });
 
-router.get(`/usun/:idJednostki`, async (req, res) => {
+router.get(`/usun/:idJednostki`,edycja, async (req, res) => {
 
     await bazaJednostek.usun(req.params.idJednostki).then();
 

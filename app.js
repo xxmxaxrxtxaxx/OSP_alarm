@@ -9,6 +9,7 @@ const bazaUzytkownikow=require("./db/uzytkownicy");
 const port = process.env.PORT;
 const flash = require("connect-flash");
 const crypto = require('crypto');
+const bazaUprawnienia=require("./db/uprawnienia");
 
 
 const baza=mysql.createPool(process.env.CLEARDB_DATABASE_URL);
@@ -53,7 +54,7 @@ passport.serializeUser(
 
 passport.deserializeUser(
     (identyfikator, callback)=>{
-        bazaUzytkownikow.ZnajdzPoWlasnymId(identyfikator).then(uzytkownik=>{
+        bazaUprawnienia.pobierzUprawanienia(identyfikator).then(uzytkownik=>{
             callback(null,uzytkownik);
         });
     }
