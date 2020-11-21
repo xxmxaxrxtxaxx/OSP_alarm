@@ -8,7 +8,21 @@ var menu=require('../controllers/menu');
 var Model=require('../models/zdarzenie');
 var ModelWezwania=require('../models/wezwanie');
 
-router.get(`/:idJednostki`, async (req, res) => {
+router.get(`/:idJednostki`,(req, res, next) => {
+    if (req.isAuthenticated()) {
+        if (req.user.czyStrazak(req.params.idJednostki) || req.user.czyAlarmujacy(req.params.idJednostki) || req.user.czyAdmin || req.user.czyAdminJednostki(req.params.idJednostki)) {
+            return next();
+        } else {
+            req.flash('error', "Brak uprawnień");
+            return res.redirect('/');
+        }
+
+    } else {
+        req.flash('error', "Brak dostępu dla nie zalogowanych");
+        return res.redirect('/');
+    }
+
+} ,async (req, res) => {
 
     var listaZdarzen = await bazaZdarzen.znajdzPoIdJednostki(req.params.idJednostki);
     
@@ -21,7 +35,21 @@ router.get(`/:idJednostki`, async (req, res) => {
     })
 });
 
-router.get(`/:idJednostki/dodaj`, async (req, res) => {
+router.get(`/:idJednostki/dodaj`, (req, res, next) => {
+    if (req.isAuthenticated()) {
+        if (req.user.czyAlarmujacy(req.params.idJednostki) || req.user.czyAdmin || req.user.czyAdminJednostki(req.params.idJednostki)) {
+            return next();
+        } else {
+            req.flash('error', "Brak uprawnień");
+            return res.redirect('/');
+        }
+
+    } else {
+        req.flash('error', "Brak dostępu dla nie zalogowanych");
+        return res.redirect('/');
+    }
+
+}, async (req, res) => {
 
     res.render('dodajZdarzenie', {
         naglowek: {},
@@ -52,7 +80,21 @@ router.post('/:idJednostki/zapisz', async(req, res)=>{
    
 });
 
-router.get('/szczegoly/:idJednostki/:idZdarzenia', async(req, res)=>{
+router.get('/szczegoly/:idJednostki/:idZdarzenia',(req, res, next) => {
+    if (req.isAuthenticated()) {
+        if (req.user.czyStrazak(req.params.idJednostki) || req.user.czyAlarmujacy(req.params.idJednostki) || req.user.czyAdmin || req.user.czyAdminJednostki(req.params.idJednostki)) {
+            return next();
+        } else {
+            req.flash('error', "Brak uprawnień");
+            return res.redirect('/');
+        }
+
+    } else {
+        req.flash('error', "Brak dostępu dla nie zalogowanych");
+        return res.redirect('/');
+    }
+
+}, async(req, res)=>{
     
    var listaDoWyswietlenia=[];
    var zdarzenie = await bazaZdarzen.ZnajdzPoWlasnymId(req.params.idZdarzenia);

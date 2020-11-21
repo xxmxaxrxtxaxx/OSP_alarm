@@ -38,7 +38,21 @@ router.get(`/:idJednostki`,
         })
     });
 
-router.get(`/usun/:idJednostki/:idStrazaka`, async (req, res) => {
+router.get(`/usun/:idJednostki/:idStrazaka`,(req, res, next) => {
+    if (req.isAuthenticated()) {
+        if (req.user.czyAdminJednostki(req.params.idJednostki) || req.user.czyAdmin) {
+            return next();
+        } else {
+            req.flash('error', "Brak uprawnień");
+            return res.redirect('/');
+        }
+
+    } else {
+        req.flash('error', "Brak dostępu dla nie zalogowanych");
+        return res.redirect('/');
+    }
+
+}, async (req, res) => {
 
     await bazaStrazakow.usun(req.params['idJednostki'], req.params['idStrazaka']).then();
     req.flash('success', "Usunięto strażaka");
@@ -46,7 +60,21 @@ router.get(`/usun/:idJednostki/:idStrazaka`, async (req, res) => {
 
 
 });
-router.get(`/usunAlarmujacego/:idJednostki/:idStrazaka`, async (req, res) => {
+router.get(`/usunAlarmujacego/:idJednostki/:idStrazaka`, (req, res, next) => {
+    if (req.isAuthenticated()) {
+        if (req.user.czyAdmin || req.user.czyAdminJednostki(req.params.idJednostki)) {
+            return next();
+        } else {
+            req.flash('error', "Brak uprawnień");
+            return res.redirect('/');
+        }
+
+    } else {
+        req.flash('error', "Brak dostępu dla nie zalogowanych");
+        return res.redirect('/');
+    }
+
+}, async (req, res) => {
 
     await bazaUprawnienia.usunAlarmujacego(req.params['idJednostki'], req.params['idStrazaka']).then();
     req.flash('success', "Usunięto alarmującego");
@@ -56,7 +84,21 @@ router.get(`/usunAlarmujacego/:idJednostki/:idStrazaka`, async (req, res) => {
 });
 
 
-router.get('/dodajNowego/:idJednostki', async (req, res) => {
+router.get('/dodajNowego/:idJednostki',(req, res, next) => {
+    if (req.isAuthenticated()) {
+        if (req.user.czyAdmin || req.user.czyAdminJednostki(req.params.idJednostki)) {
+            return next();
+        } else {
+            req.flash('error', "Brak uprawnień");
+            return res.redirect('/');
+        }
+
+    } else {
+        req.flash('error', "Brak dostępu dla nie zalogowanych");
+        return res.redirect('/');
+    }
+
+}, async (req, res) => {
     res.redirect(`/uzytkownik/?idJednostki=${req.params.idJednostki}&nastepnaStrona=edycjaStrazaka`)
 
     //  res.render('edycjaUzytkownika', {
@@ -69,12 +111,40 @@ router.get('/dodajNowego/:idJednostki', async (req, res) => {
     //  })
 });
 
-router.get('/dodajNowegoAlarmujacego/:idJednostki', async (req, res) => {
+router.get('/dodajNowegoAlarmujacego/:idJednostki',(req, res, next) => {
+    if (req.isAuthenticated()) {
+        if (req.user.czyAdmin || req.user.czyAdminJednostki(req.params.idJednostki)) {
+            return next();
+        } else {
+            req.flash('error', "Brak uprawnień");
+            return res.redirect('/');
+        }
+
+    } else {
+        req.flash('error', "Brak dostępu dla nie zalogowanych");
+        return res.redirect('/');
+    }
+
+}, async (req, res) => {
     res.redirect(`/uzytkownik/?idJednostki=${req.params.idJednostki}&nastepnaStrona=edycjaAlarmujacego`)
 
 });
 
-router.get('/dodajIstniejacego/:idJednostki', async (req, res) => {
+router.get('/dodajIstniejacego/:idJednostki',(req, res, next) => {
+    if (req.isAuthenticated()) {
+        if (req.user.czyAdmin || req.user.czyAdminJednostki(req.params.idJednostki)) {
+            return next();
+        } else {
+            req.flash('error', "Brak uprawnień");
+            return res.redirect('/');
+        }
+
+    } else {
+        req.flash('error', "Brak dostępu dla nie zalogowanych");
+        return res.redirect('/');
+    }
+
+}, async (req, res) => {
 
 
     res.render('dodajIstniejacegoStrazaka', {
@@ -87,7 +157,21 @@ router.get('/dodajIstniejacego/:idJednostki', async (req, res) => {
 });
 
 
-router.get(`/zapiszAlarmujacego/:idJednostki/:idUzytkownika`, async (req, res) => {
+router.get(`/zapiszAlarmujacego/:idJednostki/:idUzytkownika`,(req, res, next) => {
+    if (req.isAuthenticated()) {
+        if (req.user.czyAdmin || req.user.czyAdminJednostki(req.params.idJednostki)) {
+            return next();
+        } else {
+            req.flash('error', "Brak uprawnień");
+            return res.redirect('/');
+        }
+
+    } else {
+        req.flash('error', "Brak dostępu dla nie zalogowanych");
+        return res.redirect('/');
+    }
+
+}, async (req, res) => {
 
     await bazaUprawnienia.wstawAlarmujacego(req.params.idJednostki, req.params.idUzytkownika);
     req.flash('success', "Dodano alarmującego");
@@ -124,7 +208,21 @@ router.post('/:idJednostki/znajdz', async (req, res) => {
 
 
 
-router.get(`/edytuj/:idJednostki/:idUzytkownika?`, async (req, res) => {
+router.get(`/edytuj/:idJednostki/:idUzytkownika?`,(req, res, next) => {
+    if (req.isAuthenticated()) {
+        if (req.user.czyAdmin || req.user.czyAdminJednostki(req.params.idJednostki)) {
+            return next();
+        } else {
+            req.flash('error', "Brak uprawnień");
+            return res.redirect('/');
+        }
+
+    } else {
+        req.flash('error', "Brak dostępu dla nie zalogowanych");
+        return res.redirect('/');
+    }
+
+}, async (req, res) => {
 
 
     if (req.params['idUzytkownika']) {

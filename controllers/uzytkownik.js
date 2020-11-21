@@ -7,7 +7,15 @@ const crypto = require('crypto');
 const Uzytkownik = require('../models/uzytkownik');
 
 
-router.get('/:idUzytkownika?', async (req, res) => {
+router.get('/:idUzytkownika?',(req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    } else {
+        req.flash('error', "Brak dostępu dla nie zalogowanych");
+        return res.redirect('/');
+    }
+
+}, async (req, res) => {
     var uzytkownik = {};
 
     if(req.params.idUzytkownika>0){
@@ -81,7 +89,17 @@ router.post('/zapisz', async (req, res) => {
 
 });
 
-router.get('/haslo/:idUzytkownika', async (req, res) => {
+router.get('/haslo/:idUzytkownika',(req, res, next) => {
+    if (req.isAuthenticated()) {
+       
+        return next();
+
+    } else {
+        req.flash('error', "Brak dostępu dla nie zalogowanych");
+        return res.redirect('/');
+    }
+
+}, async (req, res) => {
     var uzytkownik = {};
 
     uzytkownik = await bazaStrazakow.ZnajdzPoWlasnymId(req.params['idUzytkownika']);

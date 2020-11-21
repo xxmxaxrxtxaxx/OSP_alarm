@@ -40,7 +40,22 @@ var edycja = (req, res, next) =>{
 };
 
 
-router.get(`/`, odczyt, async (req, res) => {
+router.get(`/`, odczyt,(req, res, next) =>{
+    if(req.isAuthenticated()){
+        if(req.params.idJednostki){
+           if( req.user.czyAdminJednostki(req.params.idJednostki) || req.user.czyAdmin || req.user.czyStrazak(req.params.idJednostki) ||req.user.czyAlarmujacy(req.params.idJednostki)){
+            return next();
+           }else{
+            req.flash('error', "Brak uprawnień");
+            return res.redirect('/'); 
+           }
+         }
+         return next();
+     }else{
+        req.flash('error', "Brak dostępu dla nie zalogowanych");
+        return res.redirect('/'); 
+     }
+}, async (req, res) => {
 
     var listaJednostek = [];
 
@@ -75,7 +90,7 @@ router.get(`/edycja/:idJednostki?`,edycja, async (req, res) => {
     })
 });
 
-router.post('/edycja', async (req, res) => {
+router.post('/edycja',edycja, async (req, res) => {
     var jednostka = new Model(req.body);
     var bledy = jednostka.waliduj();
     if (bledy.length>0) {
