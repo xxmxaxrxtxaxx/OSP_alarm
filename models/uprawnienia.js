@@ -9,7 +9,7 @@ class Uprawnienia {
     czyAdminJednostki(idJednostki){
         return this.administrowaneJednostki.indexOf(parseInt(idJednostki)) > -1;
     }
-    czyAlarmujący(idJednostki){
+    czyAlarmujacy(idJednostki){
         return this.alarmujacy.indexOf(parseInt(idJednostki)) > -1;
     }
     czyStrazak(idJednostki){

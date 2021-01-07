@@ -10057,7 +10057,8 @@ hr.light {
 @media (min-width: 992px) {
   #mainNav {
     box-shadow: none;
-    background-color: transparent;
+    background-color: #3f312a; 
+    /* background-color: transparent;*/
   }
   #mainNav .navbar-brand {
     color: rgba(255, 255, 255, 0.7);
@@ -10124,15 +10125,15 @@ header.masthead2 {
   background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("../img/tlo.jpg");
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: scroll;
+  background-attachment: fixed;
   background-size: cover;
 }
 
     header.masthead2 {
-    height: 100vh;
-    min-height: 40rem;
-    padding-top: 10rem;
-    padding-bottom: 0;
+    height: auto;
+    min-height: 60rem;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
   }
 header.masthead h1 {
   font-size: 2.25rem;

@@ -22,22 +22,6 @@ var odczyt = (req, res, next) =>{
     return res.redirect('/'); 
  }
 };
-var edycja = (req, res, next) =>{
-    if(req.isAuthenticated()){
-        if(req.params.idJednostki){
-           if( req.user.czyAdminJednostki(req.params.idJednostki) || req.user.czyAdmin){
-            return next();
-           }else{
-            req.flash('error', "Brak uprawnień");
-            return res.redirect('/'); 
-           }
-         }
-         return next();
-     }else{
-        req.flash('error', "Brak dostępu dla nie zalogowanych");
-        return res.redirect('/'); 
-     }
-};
 
 
 router.get(`/`, odczyt,(req, res, next) =>{
@@ -75,7 +59,21 @@ router.get(`/`, odczyt,(req, res, next) =>{
 });
 
 
-router.get(`/edycja/:idJednostki?`,edycja, async (req, res) => {
+router.get(`/edycja/:idJednostki?`, (req, res, next) => {
+    if (req.isAuthenticated()) {
+        if ( req.user.czyAdmin || req.user.czyAdminJednostki(req.params.idJednostki)) {
+            return next();
+        } else {
+            req.flash('error', "Brak uprawnień");
+            return res.redirect('/');
+        }
+
+    } else {
+        req.flash('error', "Brak dostępu dla nie zalogowanych");
+        return res.redirect('/');
+    }
+
+}, async (req, res) => {
     var jednostka = {};
 
     if (req.params['idJednostki']) {
@@ -90,7 +88,21 @@ router.get(`/edycja/:idJednostki?`,edycja, async (req, res) => {
     })
 });
 
-router.post('/edycja',edycja, async (req, res) => {
+router.post('/edycja', (req, res, next) => {
+    if (req.isAuthenticated()) {
+        if (  req.user.czyAdmin || req.user.czyAdminJednostki(req.params.idJednostki)) {
+            return next();
+        } else {
+            req.flash('error', "Brak uprawnień");
+            return res.redirect('/');
+        }
+
+    } else {
+        req.flash('error', "Brak dostępu dla nie zalogowanych");
+        return res.redirect('/');
+    }
+
+}, async (req, res) => {
     var jednostka = new Model(req.body);
     var bledy = jednostka.waliduj();
     if (bledy.length>0) {
@@ -119,7 +131,21 @@ router.post('/edycja',edycja, async (req, res) => {
 
 });
 
-router.get(`/usun/:idJednostki`,edycja, async (req, res) => {
+router.get(`/usun/:idJednostki`, (req, res, next) => {
+    if (req.isAuthenticated()) {
+        if ( req.user.czyAdmin || req.user.czyAdminJednostki(req.params.idJednostki)) {
+            return next();
+        } else {
+            req.flash('error', "Brak uprawnień");
+            return res.redirect('/');
+        }
+
+    } else {
+        req.flash('error', "Brak dostępu dla nie zalogowanych");
+        return res.redirect('/');
+    }
+
+}, async (req, res) => {
 
     await bazaJednostek.usun(req.params.idJednostki).then();
 
