@@ -7,6 +7,7 @@ var bazaStrazakow =  require('../db/strazacy');
 var menu=require('../controllers/menu');
 var Model=require('../models/zdarzenie');
 var ModelWezwania=require('../models/wezwanie');
+var SerwisSMS=require('../services/smsServices');
 
 router.get(`/:idJednostki`,(req, res, next) => {
     if (req.isAuthenticated()) {
@@ -71,9 +72,18 @@ router.post('/:idJednostki/zapisz', async(req, res)=>{
 
     var idZdarzenia = await bazaZdarzen.wstaw(zdarzenie);
 
+    var wezwania = [];
     for(var i=0;i<uzytkownicy.length; i++){
         var wezwanie=new ModelWezwania(idZdarzenia, uzytkownicy[i].id, "nieznany", null, "");
-        await bazaWezwan.wstaw(wezwanie);
+        wezwanie.id = await bazaWezwan.wstaw(wezwanie);
+        wezwania.push({
+            wezwanie: wezwanie,
+            uzytkownik: uzytkownicy[i]
+        });
+    }
+
+    for(var i = 0; i<wezwania.length;i++){
+        SerwisSMS.wyslijSMS(`[${wezwania[i].wezwanie.id}]${zdarzenie.opis}`, wezwania[i].uzytkownik.numerTelefonu);
     }
     
     res.redirect('/jednostki');
