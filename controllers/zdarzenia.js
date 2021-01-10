@@ -120,7 +120,7 @@ router.get('/szczegoly/:idJednostki/:idZdarzenia',(req, res, next) => {
             godzinaOdpowiedzi:listaWezwan[i].godzinaOdpowiedzi, 
             status:listaWezwan[i].status, 
             lokalizacja: listaWezwan[i].lokalizacja,
-            funkcja: strazak.wyswietlFunkcje(),
+            funkcja: strazak != null? strazak.wyswietlFunkcje(): "usunięty",
             opis: zdarzenie.opis,
         })
            

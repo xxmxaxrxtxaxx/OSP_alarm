@@ -44,9 +44,14 @@
 
                                     <td><a class="btn btn-primary js-scroll-trigger" href="/zdarzenia/<%=lista[i].id%>/dodaj">Uruchom alarm!</a></td>
                                     
+                                    
                                     <td><a href="/strazacy/<%=lista[i].id%>"><img src="/img/group.png" alt="Zobacz strażaków"></a>
                                         <a href="/jednostki/edycja/<%=lista[i].id%>"><img src="/img/settings.png" alt="Edytuj">  </a>
-                                        <a href="/jednostki/usun/<%=lista[i].id%>">  <img src="/img/delete.png" alt="Usuń"></a></td>
+
+                                        <%if(uzytkownik.czyAdmin){%>
+                                        <a href="/jednostki/usun/<%=lista[i].id%>">  <img src="/img/delete.png" alt="Usuń"></a>
+                                        <%}%>
+                                    </td>
                                      
  
                                 </tr>

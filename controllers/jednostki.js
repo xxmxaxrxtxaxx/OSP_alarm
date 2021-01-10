@@ -43,18 +43,13 @@ router.get(`/`, odczyt,(req, res, next) =>{
 
     var listaJednostek = [];
 
+        await bazaJednostek.ZnajdzPoIdUzytkownika(req.user.id).then((jednostki) => { listaJednostek = jednostki; });
 
-    if (req.user.czyAdmin) {
-        listaJednostek = await bazaJednostek.ZnajdzWszystkie();
-    }
-    else {
-        await bazaJednostek.ZnajdzPoIdStrazaka(req.user.id).then((jednostki) => { listaJednostek = jednostki; });
-
-    }
     res.render('jednostki', {
         naglowek: {},
         menu: menu.pobierz(req),
-        lista: listaJednostek
+        lista: listaJednostek,
+        uzytkownik: req.user
     })
 });
 

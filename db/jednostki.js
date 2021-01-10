@@ -6,11 +6,20 @@ var konwertuj = (rekordZBazy)=>new Jednostka(
        adres:   rekordZBazy.adres});
 
 module.exports = {
-    ZnajdzPoIdStrazaka: (idUzytkownika) =>{
+
+    ZnajdzPoIdUzytkownika: (idUzytkownika) =>{
         return new Promise((resolve, reject) => {
-            global.baza.query(`select j.id, j.nazwa, j.adres 
-            from jednostka j join strazak s on j.id=s.id_jednostki
-            where s.id_uzytkownika=${idUzytkownika} `,
+            global.baza.query(`SELECT  j.id, j.nazwa, j.adres FROM jednostka j
+            JOIN admin_systemu a ON a.id_uzytkownika = ${idUzytkownika} 
+            UNION DISTINCT SELECT j.id, j.nazwa, j.adres FROM jednostka j 
+            JOIN admin_jednostki aj ON j.id = aj.id_jednostki
+            WHERE aj.id_uzytkownika = ${idUzytkownika} 
+            UNION DISTINCT SELECT j.id, j.nazwa, j.adres FROM jednostka j 
+            JOIN alarmujacy al ON j.id = al.id_jednostki
+            WHERE al.id_uzytkownika = ${idUzytkownika} 
+            UNION DISTINCT SELECT j.id, j.nazwa, j.adres FROM jednostka j 
+            JOIN strazak s ON j.id = s.id_jednostki
+            WHERE s.id_uzytkownika = ${idUzytkownika} `,
                 (blad, wyniki, pola) => {
                     if (blad) reject(blad);
                     var listaJednostek=[];
@@ -40,43 +49,7 @@ module.exports = {
                 });
         })
     },
-    ZnajdzPoIdAdministratoraJednostki: (idAdministratoraJednostki)=>{
-        return new Promise((resolve, reject) => {
-            global.baza.query(`select j.id, j.nazwa, j.adres 
-            from jednostka j join admin_jednostki a on j.id=a.id_jednostki
-            where id_uzytkownika='${idAdministratoraJednostki}'`,
-                (blad, wyniki, pola) => {
-                    if (blad) reject(blad);
-                    if(wyniki.length>0){
-                        var w = wyniki[0];
-                        resolve(konwertuj(w));
 
-                    }else{
-                      resolve(null);  
-                    }
-                    
-                });
-        })
-
-    },
-    ZnajdzWszystkie: ()=>{
-        return new Promise((resolve, reject) => {
-            global.baza.query(`select id, nazwa, adres 
-            from jednostka`,
-                (blad, wyniki, pola) => {
-                    if (blad) reject(blad);
-
-                    var jednostki = [];
-                    for (var i = 0; i < wyniki.length; i++) {
-                        var w = wyniki[i];
-                        jednostki.push(konwertuj(w));
-                    }
-                    resolve(jednostki);
-                    
-                });
-        })
-
-    },
     usun: (idJednostki) => {
         return new Promise((resolve, reject) => {
             global.baza.query(`delete from jednostka where id=${idJednostki}`,

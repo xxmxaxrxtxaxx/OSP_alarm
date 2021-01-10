@@ -30,7 +30,7 @@
                                         <th>Nazwisko</th>
                                         <th>Godzina odpowiedzi</th>
                                         <th>Status</th>
-                                        <th>Lokalizacja</th>
+                               
                                         <th> Funkcja</th>
                                     </tr>
                                 </thead>
@@ -41,7 +41,6 @@
                                         <td><%= listaDoWyswietlenia[i].nazwisko%></td>
                                         <td><%= listaDoWyswietlenia[i].godzinaOdpowiedzi%></td>
                                         <td><%= listaDoWyswietlenia[i].status%></td>
-                                        <td><%= listaDoWyswietlenia[i].lokalizacja%></td>
                                         <td><%= listaDoWyswietlenia[i].funkcja%> </td>
                                     </tr>
                                     <%}%>
@@ -57,9 +56,32 @@
 <script>
  
     var lista = <%-JSON.stringify(listaDoWyswietlenia)%>;
+
+    var markery=[];
+    var dlugoscMax;
+    var dlugoscMin;
+    var szerokoscMax;
+    var szerokoscMin;
+    
+    for(var i=0; i<lista.length; i++){
+        if(lista[i].status=="potwierdzony" && lista[i].lokalizacja!=null){
+            var dlugosc=Number(lista[i].lokalizacja.split(',')[0]);
+            var szerokosc=Number(lista[i].lokalizacja.split(',')[1]);
+            dlugoscMax=Math.max(dlugoscMax || dlugosc, dlugosc);
+            dlugoscMin=Math.min(dlugoscMin || dlugosc, dlugosc);
+            szerokoscMax=Math.max(szerokoscMax || szerokosc, szerokosc);
+            szerokoscMin=Math.min(szerokoscMin|| szerokosc, szerokosc);
+            var marker = L.marker([dlugosc, szerokosc]);
+            marker.bindPopup(lista[i].imie);
+            markery.push(marker);
+        }
+    }
+
+
+
     var map = L.map('map', {
         zoom: 12,
-        center: [0, 0]
+        center: [(dlugoscMax+dlugoscMin)/2, (szerokoscMax+szerokoscMin)/2]
     });
 
   //  L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=44DiL1puzFa0WK9fjo1V').addTo(map);
@@ -67,11 +89,10 @@
 
     
 
-    for(var i=0; i< lista.length; i++){
-        if(lista[i].status=="potwierdzony"){
-        var marker = L.marker([lista[i].lokalizacja.split(',')[0],lista[i].lokalizacja.split(',')[1]]).addTo(map);
-        marker.bindPopup(lista[i].imie).openPopup();
-        }
+    for(var i=0; i< markery.length; i++){
+        
+
+        markery[i].addTo(map);
     }
     
 </script>
