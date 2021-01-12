@@ -1,4 +1,5 @@
 const Wezwanie = require("../models/wezwanie");
+const moment = require('moment');
 
 module.exports = {
 
@@ -47,10 +48,11 @@ module.exports = {
         })
     },
     zmien: (wezwanie) => {
+        
         return new Promise((resolve, reject) => {
 
-            global.baza.query(`update wezwanie set (status ='${wezwanie.status}', godzina_odpowiedzi=${wezwanie.godzinaOdpowiedzi}, lokalizacja='${wezwanie.lokalizacja}') 
-            where id=${wezwanie.id})`,
+            global.baza.query(`update wezwanie set status ='${wezwanie.status}', godzina_odpowiedzi='${moment(wezwanie.godzinaOdpowiedzi).format("YYYY-MM-DD HH:mm:ss")}', lokalizacja='${wezwanie.lokalizacja} ' 
+            where id=${wezwanie.id}`,
                 (blad, wyniki, pola) => {
                     if (blad) reject(blad);
                     resolve(wyniki);
