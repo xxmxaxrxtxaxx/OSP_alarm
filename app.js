@@ -81,7 +81,9 @@ app.use(`/strazacy`,require("./controllers/strazacy"));
 app.use(`/logowanie`,require("./controllers/logowanie"));
 app.use(`/uzytkownik`,require("./controllers/uzytkownik"));
 app.use(`/zdarzenia`, require("./controllers/zdarzenia"));
+app.use(`/api`, require("./controllers/api"));
 app.use(`/`, require("./controllers/stronaGlowna"));
+
 
 
 

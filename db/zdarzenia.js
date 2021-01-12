@@ -53,7 +53,7 @@ module.exports = {
             var aktualnaData= global.baza.query(`select getDate()`);
 
             global.baza.query(`insert into zdarzenie (id_jednostki, data, opis, id_alarmujacego) 
-            values ('${zdarzenie.idJednostki}', CURDATE(), '${zdarzenie.opis}', '${zdarzenie.idAlarmujacego}')`,
+            values ('${zdarzenie.idJednostki}', NOW(), '${zdarzenie.opis}', '${zdarzenie.idAlarmujacego}')`,
                 (blad, wyniki, pola) => {
                     if (blad) reject(blad);
                     

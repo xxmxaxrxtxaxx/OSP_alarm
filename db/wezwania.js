@@ -45,6 +45,17 @@ module.exports = {
                     resolve(wyniki.insertId);
                 });
         })
+    },
+    zmien: (wezwanie) => {
+        return new Promise((resolve, reject) => {
+
+            global.baza.query(`update wezwanie set (status ='${wezwanie.status}', godzina_odpowiedzi=${wezwanie.godzinaOdpowiedzi}, lokalizacja='${wezwanie.lokalizacja}') 
+            where id=${wezwanie.id})`,
+                (blad, wyniki, pola) => {
+                    if (blad) reject(blad);
+                    resolve(wyniki);
+                });
+        })
     }
 
 
