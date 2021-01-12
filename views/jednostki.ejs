@@ -41,13 +41,18 @@
                                     <td><%= lista[i].adres %></td>
                                     
                                     <td><a href="/zdarzenia/<%=lista[i].id%>"> <img src="/img/history.png" alt="Historia alarmów"></a></td>
-
-                                    <td><a class="btn btn-primary js-scroll-trigger" href="/zdarzenia/<%=lista[i].id%>/dodaj">Uruchom alarm!</a></td>
                                     
+                                    <td>
+                                        <%if(uzytkownik.czyAlarmujacy(lista[i].id)){%>
+                                        <a class="btn btn-primary js-scroll-trigger" href="/zdarzenia/<%=lista[i].id%>/dodaj">Uruchom alarm!</a>
+                                     <%}%>
+                                    </td>
+                                   
                                     
                                     <td><a href="/strazacy/<%=lista[i].id%>"><img src="/img/group.png" alt="Zobacz strażaków"></a>
+                                        <%if(uzytkownik.czyAdminJednostki(lista[i].id)){%>
                                         <a href="/jednostki/edycja/<%=lista[i].id%>"><img src="/img/settings.png" alt="Edytuj">  </a>
-
+                                        <%}%>
                                         <%if(uzytkownik.czyAdmin){%>
                                         <a href="/jednostki/usun/<%=lista[i].id%>">  <img src="/img/delete.png" alt="Usuń"></a>
                                         <%}%>
@@ -65,8 +70,9 @@
                         </table>
 
                     </p>
+                    <%if(uzytkownik.czyAdmin){%>
                     <a class="btn btn-light btn-xl js-scroll-trigger" href="/jednostki/edycja">Dodaj Jednostkę</a>
-                    
+                    <%}%>
                 </div>
             </div>
         </div>

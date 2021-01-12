@@ -34,7 +34,8 @@ router.get(`/:idJednostki`,
             menu: menu.pobierz(req),
             listaAlarmujacych: listaAlarmujacych,
             lista: listaStrazakow,
-            idJednostki: req.params.idJednostki
+            idJednostki: req.params.idJednostki,
+            uzytkownik: req.user
         })
     });
 

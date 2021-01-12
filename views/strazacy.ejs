@@ -39,15 +39,19 @@
                                     <td><%= lista[i].imie %></td>
                                     <td><%= lista[i].nazwisko %></td>
                                     <td><%= lista[i].numerTelefonu %></td>
+                                    <%if(uzytkownik.czyAdminJednostki(idJednostki) || uzytkownik.czyAdmin){%>
                                     <td><a href="/strazacy/edytuj/<%=idJednostki%>/<%=lista[i].id%>">Edytuj dane</a><a href="/strazacy/usun/<%=idJednostki%>/<%=lista[i].id%>"> Usuń</a></td>
- 
+                                    <% }   %>
                                 </tr>
                                 <% }   %>
 
                             </tbody>
                         </table>
+                        <%if(uzytkownik.czyAdminJednostki(idJednostki) || uzytkownik.czyAdmin){%>
                         <a class="btn btn-light btn-sm js-scroll-trigger" href="/strazacy/dodajNowego/<%=idJednostki%>">Dodaj nowego strażaka</a>
                         <a class="btn btn-light btn-sm js-scroll-trigger" href="/strazacy/dodajIstniejacego/<%=idJednostki%>?nastepnaStrona=edycjaStrazaka">Dodaj istniejącego strażaka</a>
+                        <% }   %>
+
                     </p>
 <br>
                     <h2 class="text-white mt-0">Lista alarmujacych</h2>
@@ -71,8 +75,9 @@
                                 <td><%= listaAlarmujacych[i].imie %></td>
                                 <td><%= listaAlarmujacych[i].nazwisko %></td>
                                 <td><%= listaAlarmujacych[i].numerTelefonu %></td>
+                                <%if(uzytkownik.czyAdminJednostki(idJednostki) || uzytkownik.czyAdmin){%>
                                 <td><a href="/strazacy/usunAlarmujacego/<%=idJednostki%>/<%=listaAlarmujacych[i].id%>"> Usuń</a></td>
-                            
+                                <% }   %>
                             </tr>
                             
                             <% }   %>
@@ -80,9 +85,10 @@
 
                         </tbody>
                         </table>
+                        <%if(uzytkownik.czyAdminJednostki(idJednostki) || uzytkownik.czyAdmin){%>
                         <a class="btn btn-light btn-sm js-scroll-trigger" href="/strazacy/dodajNowegoAlarmujacego/<%=idJednostki%>">Dodaj alarmującego</a>
                         <a class="btn btn-light btn-sm js-scroll-trigger" href="/strazacy/dodajIstniejacego/<%=idJednostki%>?nastepnaStrona=edycjaAlarmujacego">Przypisz funkcje alarmujący</a>
-                    
+                        <% }   %>    
                 </div>
             </div>
         </div>
