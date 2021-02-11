@@ -77,7 +77,6 @@ app.use(flash());
 
 
 app.use(`/jednostki`,require("./controllers/jednostki"));
-
 app.use(`/strazacy`,require("./controllers/strazacy"));
 app.use(`/logowanie`,require("./controllers/logowanie"));
 app.use(`/uzytkownik`,require("./controllers/uzytkownik"));

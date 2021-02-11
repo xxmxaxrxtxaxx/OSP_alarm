@@ -61,18 +61,6 @@
   });
 
 })
-(function(){
-  function init(){
-      var mapOptions={
-        center: new google.maps.LatLng(53.45008493536811, 17.085763264458095),
-        zoom: 10,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      }
-
-      var map = new google.maps.Map(document.querySelector("#map"), mapOptions);
-  }
-  google.maps.event.addDomListener(window, 'load', init);
-})();
 
 (jQuery); // End of use strict
 

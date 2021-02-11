@@ -53,6 +53,7 @@
             </div>
         </div>      
     </header>
+    <%if (zalogowanyStrazak.czyDowodca==1){%>
 <script>
  
     var lista = <%-JSON.stringify(listaDoWyswietlenia)%>;
@@ -90,13 +91,11 @@
     
 
     for(var i=0; i< markery.length; i++){
-        
-
         markery[i].addTo(map);
     }
     
 </script>
-    
+    <%}%>
 </body>
 
 </html>

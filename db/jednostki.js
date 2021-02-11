@@ -75,7 +75,8 @@ module.exports = {
     edytuj: (jednostka)=>{
         return new Promise((resolve, reject) => {
 
-            global.baza.query(`update jednostka set nazwa='${jednostka.nazwa}', adres='${jednostka.adres}' where id=${jednostka.id}`,
+            global.baza.query(`update jednostka set nazwa='${jednostka.nazwa}', adres='${jednostka.adres}' 
+            where id=${jednostka.id}`,
                 (blad, wyniki, pola) => {
                     if (blad) reject(blad);
                     

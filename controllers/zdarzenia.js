@@ -38,7 +38,7 @@ router.get(`/:idJednostki`,(req, res, next) => {
 
 router.get(`/:idJednostki/dodaj`, (req, res, next) => {
     if (req.isAuthenticated()) {
-        if (req.user.czyAlarmujacy(req.params.idJednostki) || req.user.czyAdmin || req.user.czyAdminJednostki(req.params.idJednostki)) {
+        if (req.user.czyAlarmujacy(req.params.idJednostki) || req.user.czyAdminJednostki(req.params.idJednostki)) {
             return next();
         } else {
             req.flash('error', "Brak uprawnień");
@@ -93,6 +93,7 @@ router.post('/:idJednostki/zapisz', async(req, res)=>{
 router.get('/szczegoly/:idJednostki/:idZdarzenia',(req, res, next) => {
     if (req.isAuthenticated()) {
         if (req.user.czyStrazak(req.params.idJednostki) || req.user.czyAlarmujacy(req.params.idJednostki) || req.user.czyAdmin || req.user.czyAdminJednostki(req.params.idJednostki)) {
+         
             return next();
         } else {
             req.flash('error', "Brak uprawnień");
@@ -108,7 +109,7 @@ router.get('/szczegoly/:idJednostki/:idZdarzenia',(req, res, next) => {
     
    var listaDoWyswietlenia=[];
    var zdarzenie = await bazaZdarzen.ZnajdzPoWlasnymId(req.params.idZdarzenia);
-
+   var zalogowanyStrazak=await bazaStrazakow.ZnajdzPoWlasnymId(req.user.id, req.params.idJednostki);
 
     listaWezwan= await bazaWezwan.ZnajdzPoIdZdarzenia(req.params.idZdarzenia);
     for(var i=0;i<listaWezwan.length;i++){
@@ -130,6 +131,7 @@ router.get('/szczegoly/:idJednostki/:idZdarzenia',(req, res, next) => {
         naglowek: {},
         menu: menu.pobierz(req),
         listaDoWyswietlenia: listaDoWyswietlenia,
+        zalogowanyStrazak: zalogowanyStrazak,
    
         
     })

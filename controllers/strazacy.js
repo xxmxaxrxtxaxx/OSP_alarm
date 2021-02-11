@@ -16,18 +16,14 @@ router.get(`/:idJednostki`,
                 req.flash('error', "Brak uprawnień");
                 return res.redirect('/');
             }
-
         } else {
             req.flash('error', "Brak dostępu dla nie zalogowanych");
             return res.redirect('/');
         }
-
     }, async (req, res) => {
-
         var listaStrazakow = [];
         await bazaUzytkownikow.znajdzPoJednostce(req.params.idJednostki).then((wynik) => { listaStrazakow = wynik; });
         await bazaUzytkownikow.znajdzAlarmujacychPoIdJednostki(req.params.idJednostki).then((wynik) => { listaAlarmujacych = wynik; });
-
 
         res.render('strazacy', {
             naglowek: {},
@@ -175,7 +171,7 @@ router.get(`/zapiszAlarmujacego/:idJednostki/:idUzytkownika`,(req, res, next) =>
 }, async (req, res) => {
 
     await bazaUprawnienia.wstawAlarmujacego(req.params.idJednostki, req.params.idUzytkownika);
-    req.flash('success', "Dodano alarmującego");
+    req.flash('success', "Dodano alarmującego.");
     res.redirect(`/strazacy/${req.params['idJednostki']}`);
 
 });
@@ -239,7 +235,6 @@ router.get(`/edytuj/:idJednostki/:idUzytkownika?`,(req, res, next) => {
             menu: menu.pobierz(req),
             strazak: strazak,
             admin: admin
-
         })
 
 

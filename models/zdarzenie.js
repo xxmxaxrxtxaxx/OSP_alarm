@@ -10,7 +10,7 @@ class Zdarzenie{
     
     };
     dataFormat(){
-        return moment(this.data).format("L");
+        return moment(this.data).format("DD.MM.YYYY");
     }
 
 }

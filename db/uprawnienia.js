@@ -72,7 +72,6 @@ var SprawdzCzyAdminJednostki= (idUzytkownika, idJednostki) => {
                 }
             });
     })
-
 };
 
 var usunAdminaJednostki = (idJednostki, idUzytkownika) => {

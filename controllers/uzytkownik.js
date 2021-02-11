@@ -7,6 +7,8 @@ const crypto = require('crypto');
 const Uzytkownik = require('../models/uzytkownik');
 
 
+
+
 router.get('/:idUzytkownika?',(req, res, next) => {
     if (req.isAuthenticated()) {
         return next();
@@ -65,7 +67,8 @@ router.post('/zapisz', async (req, res) => {
             uzytkownik.haslo = crypto.createHmac('sha256', uzytkownik.haslo).digest('hex');
             
             idUzytkownika = await bazaStrazakow.wstaw(uzytkownik);
- 
+
+            req.flash('success', "Hasło do konta to numer telefonu");
             req.flash('success', "Dodano nowe konto");
 
             if(req.body.nastepnaStrona=="edycjaStrazaka"){
@@ -101,6 +104,7 @@ router.get('/haslo/:idUzytkownika',(req, res, next) => {
 
 }, async (req, res) => {
     var uzytkownik = {};
+    if(req.user.id==req.params.idUzytkownika){
 
     uzytkownik = await bazaStrazakow.ZnajdzPoWlasnymId(req.params['idUzytkownika']);
 
@@ -109,6 +113,10 @@ router.get('/haslo/:idUzytkownika',(req, res, next) => {
         menu: menu.pobierz(req),
         uzytkownik: uzytkownik,
     })
+}else{
+    req.flash('error', "Brak dostępu");
+    return res.redirect('/');
+}
 
 });
 
@@ -116,13 +124,11 @@ router.post('/zapiszHaslo/:idUzytkownika', async (req, res) => {
     var uzytkownik = new Model(req.body);
     var daneUzytkownika=await bazaStrazakow.ZnajdzPoWlasnymId(req.params['idUzytkownika']);
 
-
     uzytkownik.haslo = crypto.createHmac('sha256', uzytkownik.haslo).digest('hex');
 
     if(daneUzytkownika.haslo==uzytkownik.haslo){
         if(req.body.noweHaslo==req.body.powtorzHaslo){
             uzytkownik.haslo = crypto.createHmac('sha256', req.body.noweHaslo).digest('hex');
-           // uzytkownik.haslo=req.body.noweHaslo;
             await bazaStrazakow.zmienHaslo(uzytkownik);
             req.flash('success', "Hasło zostało zmienione");
             res.redirect(`/uzytkownik/${req.params['idUzytkownika']}`);
