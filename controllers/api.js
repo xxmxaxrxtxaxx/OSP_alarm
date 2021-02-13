@@ -24,9 +24,11 @@ router.put(`/wezwanie/:id`, async (req, res) => {
             var zdarzenie=await bazaZdarzen.ZnajdzPoWlasnymId(wezwanie.idZdarzenia);
             wezwanie.godzinaOdpowiedzi=new Date();
             //ustaw tylko jeżeli godzina odpowiedzi jesy null
-            if(wezwanie.godzinaOdpowiedzi-zdarzenie.data < 15 * 60 * 1000 ){
+            if(wezwanie.godzinaOdpowiedzi-zdarzenie.data > 15 * 60 * 1000 ){
                 res.status(400).json({status: 400, message: "Błąd"});
             }else{
+                wezwanie.lokalizacja=req.body.lokalizacja;
+                wezwanie.status=req.body.status;
                 await bazaWezwan.zmien(wezwanie);
                 res.status(200).json({status: 200, message: "Dodane"});
             }
@@ -34,6 +36,7 @@ router.put(`/wezwanie/:id`, async (req, res) => {
          
             res.status(400).json({status: 400, message: "Błąd"});
         }
+
     }else{
     
         res.status(400).json({status: 400, message: "Błąd"});
