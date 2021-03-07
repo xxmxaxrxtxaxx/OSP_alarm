@@ -9,6 +9,7 @@ var Model=require('../models/zdarzenie');
 var ModelWezwania=require('../models/wezwanie');
 var SerwisSMS=require('../services/smsServices');
 
+
 router.get(`/:idJednostki`,(req, res, next) => {
     if (req.isAuthenticated()) {
         if (req.user.czyStrazak(req.params.idJednostki) || req.user.czyAlarmujacy(req.params.idJednostki) || req.user.czyAdmin || req.user.czyAdminJednostki(req.params.idJednostki)) {
@@ -118,7 +119,7 @@ router.get('/szczegoly/:idJednostki/:idZdarzenia',(req, res, next) => {
         listaDoWyswietlenia.push({
             imie:uzytkownik.imie, 
             nazwisko:uzytkownik.nazwisko, 
-            godzinaOdpowiedzi:listaWezwan[i].godzinaOdpowiedzi, 
+            godzinaOdpowiedzi:listaWezwan[i].godzinaOdpowiedziFormat(), 
             status:listaWezwan[i].status, 
             lokalizacja: listaWezwan[i].lokalizacja,
             funkcja: strazak != null? strazak.wyswietlFunkcje(): "usunięty",
